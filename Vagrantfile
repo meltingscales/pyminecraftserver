@@ -15,6 +15,8 @@ Vagrant.configure('2') do |config|
 
   config.vm.synced_folder './persistent', '/minecraft/persistent/'
 
+  config.vm.provision 'shell', path: 'install-tools.sh', run: 'once'
+
   config.vm.provision 'shell', path: 'download-deps.sh'
 
   config.vm.provider 'virtualbox' do |v|

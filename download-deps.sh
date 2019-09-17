@@ -22,7 +22,7 @@ function download_file() {
     echo "Downloading $(basename "$FILEPATH") to '$FILEPATH' from '$URL'..."
     wget "$URL" -O "$FILEPATH"
   else
-    echo "File $(basename "$FILEPATH") already exists."
+    echo "File $(basename "$FILEPATH") already exists at '$FILEPATH'"
   fi
 
 }

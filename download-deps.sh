@@ -2,6 +2,8 @@
 
 DOWNLOAD_PATH="/minecraft/persistent/downloads/"
 mkdir -p "$DOWNLOAD_PATH"
+SERVER_PATH="/minecraft/persistent/server/"
+mkdir -p "$SERVER_PATH"
 
 RLCRAFT_SERVER_PACK_URL="https://www.curseforge.com/minecraft/modpacks/rlcraft/download/2780296/file"
 RLCRAFT_SERVER_PACK_PATH="${DOWNLOAD_PATH}/RLCraftServerPack-1.12.2-Beta-v2.5.zip"
@@ -53,3 +55,11 @@ validate_sha256 "$FORGE_JAR_INSTALLER_PATH_FILE" "dd9c6134015712186ad3df8d8d79dd
 
 download_file "$MC_VANILLA_SERVER_PATH_FILE" "$MC_VANILLA_SERVER_JAR_URL"
 validate_sha256 "$MC_VANILLA_SERVER_PATH_FILE" "fe1f9274e6dad9191bf6e6e8e36ee6ebc737f373603df0946aafcded0d53167e" || exit 1
+
+# If the server installer doesn't exist, set it up.
+if [ ! -f "${SERVER_PATH}/installer.jar" ]; then
+  cp "$FORGE_JAR_INSTALLER_PATH_FILE" "${SERVER_PATH}/installer.jar"
+  pushd $SERVER_PATH
+  java -jar "${SERVER_PATH}/installer.jar" --installServer
+  popd
+fi

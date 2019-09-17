@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 MEMORY = (5 * 1024)
-CORES = 4
+CORES = 20
 
 Vagrant.configure('2') do |config|
   config.vm.box = 'hashicorp/bionic64'
@@ -17,9 +17,11 @@ Vagrant.configure('2') do |config|
 
   config.vm.synced_folder './persistent', '/minecraft/persistent/'
 
-  config.vm.provision 'shell', path: 'install-tools.sh', run: 'once'
+  config.vm.synced_folder './scripts', '/minecraft/scripts/'
 
-  config.vm.provision 'shell', path: 'download-deps.sh', run: 'always'
+  config.vm.provision 'shell', path: 'scripts/install-tools.sh', run: 'once'
+
+  config.vm.provision 'shell', path: 'scripts/download-deps.sh', run: 'always'
 
   config.vm.provider 'virtualbox' do |v|
     v.memory = MEMORY

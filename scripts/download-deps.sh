@@ -87,18 +87,6 @@ if [ ! -f "${SERVER_PATH}/installer.jar" ]; then
 
 fi
 
-if sudo netstat -tulpn | grep :25565; then
-  echo 'Minecraft server is up because port 25565 is bound. See above command output for PID.'
-elif ps -ax | grep "[f]orge-.*-universal.jar"; then
-  echo 'Minecraft server is up because a Forge JAR is running but port 25565 is not bound yet.'
-else
-  echo 'Minecraft server is not running.'
+echo 'Run `vagrant ssh`, log in, run `cd /minecraft/scripts`, and then run `./run-server.sh` to start the server.'
 
-  echo "TODO: AUTOMATE THIS???"
-  echo ""
-
-  echo 'Run `vagrant ssh` in your terminal, and then type this to start the server:'
-  echo "cd $SERVER_PATH"'; java -Xmx3G -Xms1G -jar "$(ls forge-*-universal.jar)"'
-  exit 1
-
-fi
+echo 'It will also check if the server is already running.'

@@ -1,0 +1,1 @@
+This is a Vagrant-enabled automatic setup for a modded Minecraft server pack called RLCraft.

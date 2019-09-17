@@ -22,3 +22,26 @@ The password is `vagrant`, and the username is `vagrant`.
 ## Connecting
 
 Connect on port `25565` with RLCraft.
+
+## Crap! It broke!
+
+If you think the downloads are f*#%ed or missing or corrupted, then delete the
+`downloads` folder.
+
+If you break the server somehow (delete a mod, etc), then delete the `server`
+folder. It will be recreated.
+
+If you don't want to delete everything, then just back up your world/config and
+add it back in once the files are regenerated.
+
+You don't need to necessarily delete the `world` folder or anything else.
+
+### It's still broken!
+
+Back up your `world` folder and config.
+
+Delete this entire folder and all VMs in VirtualBox.
+
+Re-download this repo.
+
+Put the `world` folder and config back in.

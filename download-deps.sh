@@ -65,18 +65,18 @@ if ! [ -f $MC_PATCHED_SERVER_PATH_FILE ]; then
   # Extract mod jar contents to later apply to vanilla server jar
   cp "$FORGE_JAR_PATH_FILE" /tmp/forge_jar_files
   jar -xvf "$(basename "$FORGE_JAR_PATH_FILE")"
-
-  popd
+  rm "$(basename "$FORGE_JAR_PATH_FILE")"
 
   # Make a copy of the vanilla jar
   cp "$MC_VANILLA_SERVER_PATH_FILE" "$MC_PATCHED_SERVER_PATH_FILE"
 
-  echo 'debug'
-  exit 0
-
   # Add all those modded files to the patched jar
-  jar -uf "$MC_PATCHED_SERVER_PATH_FILE" /tmp/forge_jar_files/*
+  jar -umf "$MC_PATCHED_SERVER_PATH_FILE" ./*
+  popd
 
+  # Remove loose jar files
   rm -r /tmp/forge_jar_files
 
 fi
+
+validate_sha256 "$MC_PATCHED_SERVER_PATH_FILE" "lol i didnt make a sha hash for this yet :)"

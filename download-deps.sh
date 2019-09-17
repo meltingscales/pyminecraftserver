@@ -92,3 +92,16 @@ if [ ! -f "${SERVER_PATH}/installer.jar" ]; then
   rm -r /tmp/modpack/
 
 fi
+
+if sudo netstat -tulpn | grep :25565; then
+  echo 'Minecraft server is up because port 25565 is bound. See above command output for PID.'
+elif ps -ax | grep "[f]orge-.*-universal.jar"; then
+  echo 'Minecraft server is up because a Forge JAR is running but port 25565 is not bound yet. Try waiting.'
+else
+  echo 'Minecraft server is not running. Starting...'
+
+  start_server &
+  SERVER_PID=$!
+
+  echo "PID '$SERVER_PID' is the server."
+fi

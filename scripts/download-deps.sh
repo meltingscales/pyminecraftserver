@@ -90,7 +90,3 @@ if [ ! -f "${SERVER_PATH}/installer.jar" ]; then
   rm -r /tmp/modpack/
 
 fi
-
-echo 'Run `vagrant ssh`, log in, run `cd /minecraft/scripts`, and then run `./run-server.sh` to start the server.'
-
-echo 'It will also check if the server is already running.'

@@ -41,6 +41,12 @@ Vagrant.configure('2') do |config|
   config.ssh.password = 'vagrant'
   config.ssh.insert_key = false
 
+  config.vm.provider 'virtualbox' do |v|
+    v.memory = MEMORY
+    v.cpus = CORES
+  end
+
+
   # Disable default synced folder
   config.vm.synced_folder '.', '/vagrant', disabled: true
 
@@ -58,8 +64,9 @@ Vagrant.configure('2') do |config|
 
   config.vm.provision 'shell', path: 'scripts/download-deps.sh', run: 'always', env: GUEST_DIRS
 
-  config.vm.provider 'virtualbox' do |v|
-    v.memory = MEMORY
-    v.cpus = CORES
-  end
+  config.vm.provision 'shell', path: 'scripts/download-mods.sh', run: 'always', env: GUEST_DIRS
+
+  config.vm.provision 'shell', path: 'scripts/advice.sh', run: 'always', env: GUEST_DIRS
+
+
 end

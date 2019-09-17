@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-MEMORY = 2048
+MEMORY = 5120
 CORES = 4
 
 Vagrant.configure('2') do |config|
@@ -19,7 +19,7 @@ Vagrant.configure('2') do |config|
 
   config.vm.provision 'shell', path: 'install-tools.sh', run: 'once'
 
-  config.vm.provision 'shell', path: 'download-deps.sh'
+  config.vm.provision 'shell', path: 'download-deps.sh', run: 'always'
 
   config.vm.provider 'virtualbox' do |v|
     v.memory = MEMORY

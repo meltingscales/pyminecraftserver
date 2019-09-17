@@ -47,12 +47,6 @@ function validate_sha256() {
   fi
 }
 
-function start_server() {
-  pushd $SERVER_PATH
-  java -jar "$(ls forge-*-universal.jar)"
-  popd
-}
-
 download_file "$RLCRAFT_SERVER_PACK_PATH" "$RLCRAFT_SERVER_PACK_URL"
 validate_sha256 "$RLCRAFT_SERVER_PACK_PATH" "2f68b4ff3f8587c163309f6f4b23b8993dcedd79b32f2a828b5421fbc66511b9" || exit 1
 
@@ -72,7 +66,7 @@ if [ ! -f "${SERVER_PATH}/installer.jar" ]; then
   java -jar "${SERVER_PATH}/installer.jar" --installServer
 
   # Run server for the first time.
-  start_server
+  java -jar "$(ls forge-*-universal.jar)"
 
   # Accept EULA. Is this illegal? Probably. :p
   sed -i 's/false/true/g' eula.txt
@@ -96,12 +90,15 @@ fi
 if sudo netstat -tulpn | grep :25565; then
   echo 'Minecraft server is up because port 25565 is bound. See above command output for PID.'
 elif ps -ax | grep "[f]orge-.*-universal.jar"; then
-  echo 'Minecraft server is up because a Forge JAR is running but port 25565 is not bound yet. Try waiting.'
+  echo 'Minecraft server is up because a Forge JAR is running but port 25565 is not bound yet.'
 else
-  echo 'Minecraft server is not running. Starting...'
+  echo 'Minecraft server is not running.'
 
-  start_server &
-  SERVER_PID=$!
+  echo "TODO: AUTOMATE THIS???"
+  echo ""
 
-  echo "PID '$SERVER_PID' is the server."
+  echo 'Run `vagrant ssh` in your terminal, and then type this to start the server:'
+  echo "cd $SERVER_PATH"'; java -Xmx3G -Xms1G -jar "$(ls forge-*-universal.jar)"'
+  exit 1
+
 fi

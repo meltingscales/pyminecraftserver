@@ -25,7 +25,7 @@ else
 
   pushd /minecraft/persistent/server/
 
-  java -Xmx${MEM_TO_USE}M -Xms1G -jar "$(ls forge-*-universal.jar)"
+  java -Xmx${MEM_TO_USE}M -Xms1G -jar "$(ls forge-*-universal.jar)" -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M
 
   popd
 fi

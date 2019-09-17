@@ -47,9 +47,9 @@ Vagrant.configure('2') do |config|
   # Mount all folders specified in hashes
   for folder_name in HOST_DIRS.keys
 
-    puts("LINK #{folder_name}...")
+    # puts("LINK #{folder_name}...")
 
-    puts("#{HOST_DIRS[folder_name]} <---> #{GUEST_DIRS[folder_name]}")
+    # puts("#{HOST_DIRS[folder_name]} <---> #{GUEST_DIRS[folder_name]}")
 
     config.vm.synced_folder HOST_DIRS[folder_name], GUEST_DIRS[folder_name]
   end

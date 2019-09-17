@@ -6,6 +6,8 @@ CORES = 4
 Vagrant.configure('2') do |config|
   config.vm.box = 'hashicorp/bionic64'
 
+  config.vm.network "forwarded_port", guest: 25565, host: 25565
+
   config.ssh.username = 'vagrant'
   config.ssh.password = 'vagrant'
   config.ssh.insert_key = false

@@ -82,7 +82,7 @@ if [ ! -f "${SERVER_PATH}/installer.jar" ]; then
   echo "Copying mods..."
 
   mkdir -p /tmp/modpack/
-  unzip $RLCRAFT_SERVER_PACK_PATH /tmp/modpack/
+  unzip $RLCRAFT_SERVER_PACK_PATH -d /tmp/modpack/
 
   # The * is because it's a nested folder. Thanks guys.
   pushd /tmp/modpack/*

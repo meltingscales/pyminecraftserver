@@ -12,6 +12,11 @@ Because I'm too dumb and lazy to figure out how to automate this, you need to
 run `vagrant ssh` after doing this and then you need to run a few commands to
 start the server.
 
+The commands are:
+
+`cd /minecraft/scripts/`
+`./run-server.sh`
+
 The password is `vagrant`, and the username is `vagrant`.
 
 ## Connecting

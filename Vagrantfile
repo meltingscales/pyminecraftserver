@@ -19,7 +19,7 @@ Vagrant.configure('2') do |config|
 
   config.vm.synced_folder './scripts', '/minecraft/scripts/'
 
-  config.vm.provision 'shell', path: 'scripts/install-tools.sh', run: 'once'
+  config.vm.provision 'shell', path: 'scripts/install-tools.sh', run: 'always'
 
   config.vm.provision 'shell', path: 'scripts/download-deps.sh', run: 'always'
 

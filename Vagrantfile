@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-MEMORY = (5 * 1024)
-CORES = 20
+MEMORY = (5 * 1024) # 5 GB in megabytes
+CORES = 4
 
 Vagrant.configure('2') do |config|
   config.vm.box = 'hashicorp/bionic64'

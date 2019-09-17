@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-MEMORY = 5120
+MEMORY = (5 * 1024)
 CORES = 4
 
 Vagrant.configure('2') do |config|

@@ -47,6 +47,12 @@ function validate_sha256() {
   fi
 }
 
+function start_server() {
+  pushd $SERVER_PATH
+  java -jar "$(ls forge-*-universal.jar)"
+  popd
+}
+
 download_file "$RLCRAFT_SERVER_PACK_PATH" "$RLCRAFT_SERVER_PACK_URL"
 validate_sha256 "$RLCRAFT_SERVER_PACK_PATH" "2f68b4ff3f8587c163309f6f4b23b8993dcedd79b32f2a828b5421fbc66511b9" || exit 1
 
@@ -66,7 +72,7 @@ if [ ! -f "${SERVER_PATH}/installer.jar" ]; then
   java -jar "${SERVER_PATH}/installer.jar" --installServer
 
   # Run server for the first time.
-  java -jar "$(ls forge-*-universal.jar)"
+  start_server
 
   # Accept EULA. Is this illegal? Probably. :p
   sed -i 's/false/true/g' eula.txt

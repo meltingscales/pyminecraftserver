@@ -17,6 +17,6 @@ pushd $DOWNLOAD_PATH
 if sha256sum --check "$RLCRAFT_SERVER_CHECKSUM_FILE"; then
   echo 'Server pack file is valid.'
 else
-  echo "Server pack file at '#RLCRAFT_SERVER_PACK_PATH' is invalid. Re-download it!"
+  echo "Server pack file at '$RLCRAFT_SERVER_PACK_PATH' is invalid. Re-download it!"
 fi
 popd

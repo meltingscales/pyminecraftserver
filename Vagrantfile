@@ -4,7 +4,7 @@ MEMORY = 2048
 CORES = 4
 
 Vagrant.configure('2') do |config|
-  config.vm.box = 'hashicorp/precise64'
+  config.vm.box = 'hashicorp/bionic64'
 
   config.ssh.username = 'vagrant'
   config.ssh.password = 'vagrant'

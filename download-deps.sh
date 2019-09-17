@@ -6,13 +6,11 @@ mkdir -p "$DOWNLOAD_PATH"
 RLCRAFT_SERVER_PACK_URL="https://www.curseforge.com/minecraft/modpacks/rlcraft/download/2780296/file"
 RLCRAFT_SERVER_PACK_PATH="${DOWNLOAD_PATH}/RLCraftServerPack-1.12.2-Beta-v2.5.zip"
 
-FORGE_JAR_URL="http://files.minecraftforge.net/maven/net/minecraftforge/forge/1.12.2-14.23.5.2803/forge-1.12.2-14.23.5.2803-universal.jar"
-FORGE_JAR_PATH_FILE="${DOWNLOAD_PATH}/forge-1.12.2-14.23.5.2803-universal.jar"
+FORGE_JAR_INSTALLER_URL="https://files.minecraftforge.net/maven/net/minecraftforge/forge/1.12.2-14.23.5.2803/forge-1.12.2-14.23.5.2803-installer.jar"
+FORGE_JAR_INSTALLER_PATH_FILE="${DOWNLOAD_PATH}/forge-1.12.2-14.23.5.2803-installer.jar"
 
 MC_VANILLA_SERVER_JAR_URL="https://launcher.mojang.com/v1/objects/886945bfb2b978778c3a0288fd7fab09d315b25f/server.jar"
 MC_VANILLA_SERVER_PATH_FILE="${DOWNLOAD_PATH}/server.jar"
-
-MC_PATCHED_SERVER_PATH_FILE="${DOWNLOAD_PATH}/patched_server.jar"
 
 # Download a file and make sure it exists.
 # First arg is filepath, second is the URL.
@@ -50,33 +48,8 @@ function validate_sha256() {
 download_file "$RLCRAFT_SERVER_PACK_PATH" "$RLCRAFT_SERVER_PACK_URL"
 validate_sha256 "$RLCRAFT_SERVER_PACK_PATH" "2f68b4ff3f8587c163309f6f4b23b8993dcedd79b32f2a828b5421fbc66511b9" || exit 1
 
-download_file "$FORGE_JAR_PATH_FILE" "$FORGE_JAR_URL"
-validate_sha256 "$FORGE_JAR_PATH_FILE" "a495a7fbcbde2cb34e6d2db108b4091f910e097ad38b94bef038cfc65c77f0a6" || exit 1
+download_file "$FORGE_JAR_INSTALLER_PATH_FILE" "$FORGE_JAR_INSTALLER_URL"
+validate_sha256 "$FORGE_JAR_INSTALLER_PATH_FILE" "dd9c6134015712186ad3df8d8d79ddf59d9129d5e9b2300191fca46eab05547f" || exit 1
 
 download_file "$MC_VANILLA_SERVER_PATH_FILE" "$MC_VANILLA_SERVER_JAR_URL"
 validate_sha256 "$MC_VANILLA_SERVER_PATH_FILE" "fe1f9274e6dad9191bf6e6e8e36ee6ebc737f373603df0946aafcded0d53167e" || exit 1
-
-# If a patched JAR file doesn't exist, then...
-if ! [ -f $MC_PATCHED_SERVER_PATH_FILE ]; then
-
-  mkdir -p /tmp/forge_jar_files
-  pushd /tmp/forge_jar_files
-
-  # Extract mod jar contents to later apply to vanilla server jar
-  cp "$FORGE_JAR_PATH_FILE" /tmp/forge_jar_files
-  jar -xvf "$(basename "$FORGE_JAR_PATH_FILE")"
-  rm "$(basename "$FORGE_JAR_PATH_FILE")"
-
-  # Make a copy of the vanilla jar
-  cp "$MC_VANILLA_SERVER_PATH_FILE" "$MC_PATCHED_SERVER_PATH_FILE"
-
-  # Add all those modded files to the patched jar
-  jar -umf "$MC_PATCHED_SERVER_PATH_FILE" ./*
-  popd
-
-  # Remove loose jar files
-  rm -r /tmp/forge_jar_files
-
-fi
-
-validate_sha256 "$MC_PATCHED_SERVER_PATH_FILE" "lol i didnt make a sha hash for this yet :)"

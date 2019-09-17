@@ -62,11 +62,27 @@ if [ ! -f "${SERVER_PATH}/installer.jar" ]; then
   echo "Setting up Forge server..."
 
   cp "$FORGE_JAR_INSTALLER_PATH_FILE" "${SERVER_PATH}/installer.jar"
-  pushd $SERVER_PATH
+  pushd "$SERVER_PATH"
   java -jar "${SERVER_PATH}/installer.jar" --installServer
+
+  # Run server for the first time.
+  java -jar "$(ls forge-*-universal.jar)"
 
   # Accept EULA. Is this illegal? Probably. :p
   sed -i 's/false/true/g' eula.txt
 
   popd
+
+  echo "Copying mods..."
+
+  mkdir -p /tmp/modpack/
+  unzip $RLCRAFT_SERVER_PACK_PATH /tmp/modpack/
+
+  # The * is because it's a nested folder. Thanks guys.
+  pushd /tmp/modpack/*
+  cp -r ./* "$SERVER_PATH"
+  popd
+
+  rm -r /tmp/modpack/
+
 fi

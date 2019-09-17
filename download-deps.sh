@@ -58,8 +58,15 @@ validate_sha256 "$MC_VANILLA_SERVER_PATH_FILE" "fe1f9274e6dad9191bf6e6e8e36ee6eb
 
 # If the server installer doesn't exist, set it up.
 if [ ! -f "${SERVER_PATH}/installer.jar" ]; then
+
+  echo "Setting up Forge server..."
+
   cp "$FORGE_JAR_INSTALLER_PATH_FILE" "${SERVER_PATH}/installer.jar"
   pushd $SERVER_PATH
   java -jar "${SERVER_PATH}/installer.jar" --installServer
+
+  # Accept EULA. Is this illegal? Probably. :p
+  sed -i 's/false/true/g' eula.txt
+
   popd
 fi

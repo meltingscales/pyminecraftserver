@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 
-DOWNLOAD_PATH="/minecraft/persistent/downloads/"
+#echo "given $DOWNLOAD_DIR and $SERVER_DIR"
+#exit 1
+
+DOWNLOAD_PATH="$DOWNLOAD_DIR"
 mkdir -p "$DOWNLOAD_PATH"
-SERVER_PATH="/minecraft/persistent/server/"
+
+SERVER_PATH="$SERVER_DIR"
 mkdir -p "$SERVER_PATH"
 
 RLCRAFT_SERVER_PACK_URL="https://www.curseforge.com/minecraft/modpacks/rlcraft/download/2780296/file"

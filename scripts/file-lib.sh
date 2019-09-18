@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Echo how many folders are in a directory.
+function echo_number_folders() {
+    echo $(ls -l "$1" | grep "^d" | wc -l)
+}
 # Download a file and make sure it exists.
 # First arg is filepath, second is the URL.
 function download_file() {

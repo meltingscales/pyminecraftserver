@@ -23,7 +23,7 @@ else
 
   echo "Starting server..."
 
-  pushd /minecraft/persistent/server/
+  pushd /minecraft/server/ #TODO: This should not be hardcoded!
 
   java -Xmx${MEM_TO_USE}M -Xms1G -jar "$(ls forge-*-universal.jar)" -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M
 

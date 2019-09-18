@@ -15,7 +15,7 @@ while read line; do
     IFS='=' read -a arr <<< "$line"
 
     # Download file into mods directory, make it obvious that it's automatically downloaded
-    download_file "$MOD_DIR/vagrant_auto_download_${arr[0]}" "${arr[1]}"
+    download_file "$MOD_DIR/_vagrant_auto_download_${arr[0]}" "${arr[1]}"
 
 done < $SCRIPT_DIR/mods.list
 

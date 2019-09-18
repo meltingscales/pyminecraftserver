@@ -8,9 +8,6 @@ MOD_DIR="${SERVER_DIR}/mods/"
 
 while read line; do
 
-    echo "line:"
-    echo $line
-
     # Split by equals sign into array
     IFS='=' read -a arr <<< "$line"
 

@@ -11,10 +11,10 @@ while read line; do
     echo "line:"
     echo $line
 
-    # Split by pipe into array
+    # Split by equals sign into array
     IFS='=' read -a arr <<< "$line"
 
-    # Download file into mods directory
+    # Download file into mods directory, make it obvious that it's automatically downloaded
     download_file "$MOD_DIR/vagrant_auto_download_${arr[0]}" "${arr[1]}"
 
 done < $SCRIPT_DIR/mods.list

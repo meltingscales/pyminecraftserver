@@ -3,8 +3,8 @@
 # Download a file and make sure it exists.
 # First arg is filepath, second is the URL.
 function download_file() {
-  FILEPATH="$1"
-  URL="$2"
+  local FILEPATH="$1"
+  local URL="$2"
 
   if ! [ -f "$FILEPATH" ]; then
     echo "Downloading $(basename "$FILEPATH") to '$FILEPATH' from '$URL'..."
@@ -18,10 +18,10 @@ function download_file() {
 # Validate a SHA256 check file.
 # First arg is the filepath, second is the checksum.
 function validate_sha256() {
-  FILEPATH="$1"
-  GOOD_CHECKSUM="$2"
+  local FILEPATH="$1"
+  local GOOD_CHECKSUM="$2"
 
-  FILE_CHECKSUM="$(sha256sum "$FILEPATH" | cut -f1 -d' ')"
+  local FILE_CHECKSUM="$(sha256sum "$FILEPATH" | cut -f1 -d' ')"
 
   if [ "$FILE_CHECKSUM" = "$GOOD_CHECKSUM" ]; then
     echo "File $(basename $FILEPATH) is valid."

@@ -4,6 +4,12 @@
 function echo_number_folders() {
     echo $(ls -l "$1" | grep "^d" | wc -l)
 }
+
+# Echo how many files are in a directory.
+function echo_number_files() {
+  echo $(ls -l "$1" | grep "^-" | wc -l)
+}
+
 # Download a file and make sure it exists.
 # First arg is filepath, second is the URL.
 function download_file() {

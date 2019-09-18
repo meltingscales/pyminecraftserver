@@ -68,20 +68,44 @@ function install_modpack() {
     # How many folders/files are in the modpack zip?
     local folders_in_modpack_zip=$(echo_number_folders "./")
     local files_in_modpack_zip=$(echo_number_files "./")
+    local total_objs_in_modpack_zip=$((folders_in_modpack_zip + files_in_modpack_zip))
 
-    echo "You got $folders_in_modpack_zip folders in here. wowie. now imma die!"
+    echo "In the modpack zip ($(basename "$($MODPACK_ZIP_PATH)"), you got:"
+    echo "$folders_in_modpack_zip folders,"
+    echo "$files_in_modpack_zip files,"
+    echo "$total_objs_in_modpack_zip total objects."
 
-    if $(echo "" | bc) = "0"; then
-        true
+    # If there's...nothing...
+    if [[ "$total_objs_in_modpack_zip" -eq "0" ]]; then
+        echo "The zip file is empty. Am I a joke to you?"
+        exit 1
+    # If there is one folder and NO files,
+    elif [[ "$folders_in_modpack_zip" -eq "1" && "$files_in_modpack_zip" -eq "0" ]]; then
+        echo "It looks like there is a single folder and no files in this modpack's installation ZIP:"
+        ls -l ./
+
+        echo "I am assuming that this folder, $(basename "$(ls ./)"), contains the modpack's files."
+        #TODO: Check for mods/ dir in the rare case that it's not.
+
+        # Change our directory to the single folder.
+        pushd ./*
+
+        echo "Copying all of these files into server:"
+        tree -L 1
+
+        # Copy everything.
+        cp -r ./ "$SERVER_PATH"
+        popd
+
+    # Everything else, panic.
+    else
+        echo "I am not sure what to do with the following unzipped modpack's file/folder structure:"
+        ls -lash
+
+        echo "Please contact the developer of this software and call him stupid and tell him to fix this."
+
+        exit 1
     fi
-
-    exit 1
-
-    # The * is because it's a nested folder. Thanks guys.
-    cp -r ./* "$SERVER_PATH"
-    popd
-
-
 }
 
 # If the server installer doesn't exist, set it up.

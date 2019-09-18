@@ -13,4 +13,8 @@ echo $SERVER_DIR/mods/
 
 echo "oh look at you using env vars wow so portable :>)"
 
+while read line; do
+    echo $line
+done < $SCRIPT_DIR/mods.list
+
 exit 0

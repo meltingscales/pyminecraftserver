@@ -35,7 +35,11 @@ end
 Vagrant.configure('2') do |config|
   config.vm.box = 'alonsodomin/ubuntu-trusty64-java8'
 
+  # Port for Minecraft.
   config.vm.network "forwarded_port", guest: 25565, host: 25565
+
+  # Port for DynMap. See "mods.list" in scripts/.
+  config.vm.network "forwarded_port", guest: 8123, host: 8123
 
   config.ssh.username = 'vagrant'
   config.ssh.password = 'vagrant'

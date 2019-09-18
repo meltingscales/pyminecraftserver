@@ -23,7 +23,7 @@ The password is `vagrant`, and the username is `vagrant`.
 
 Connect on port `25565` with RLCraft.
 
-There is also a map running on <https://127.0.0.1:8123>!
+There is also a map running on <http://127.0.0.1:8123>!
 
 ## Adding mods
 

@@ -61,3 +61,18 @@ if [ ! -f "${SERVER_PATH}/installer.jar" ]; then
   rm -r /tmp/modpack/
 
 fi
+
+# Install a zipped modpack (containing mods/, config/, etc) to a server.
+# First arg is server path,
+# Second is a zip file path.
+#
+# If the zip file contains loose files (i.e. server-mod.zip!/config/), then
+# They will be directly inserted.
+#
+# If the zip file contains a single folder (i.e. server-mod.zip!/modpack-name/config/) (cough THANKS RLCRAFT cough),
+# Then the function will attempt to correct for that and still extract the files.
+#
+function install_modpack() {
+    local SERVERPATH="$1"
+    local mybutt="lol"
+}

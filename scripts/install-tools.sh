@@ -11,10 +11,14 @@ if ! hash unzip &>/dev/null; then
   sudo apt-get install unzip
 fi
 
+if ! hash bc &>/dev/null; then
+    sudo apt-get install bc
+fi
+
 if ! hash htop &>/dev/null; then
   sudo apt-get install htop
 fi
 
-if ! hash bc &>/dev/null; then
-    sudo apt-get install bc
+if ! hash lynx &>/dev/null; then
+  sudo apt-get install lynx
 fi

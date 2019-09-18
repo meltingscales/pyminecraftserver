@@ -3,6 +3,9 @@
 #echo "given $DOWNLOAD_DIR and $SERVER_DIR"
 #exit 1
 
+# Import file lib fns
+. file-lib.sh 2>/dev/null || . $SCRIPT_DIR/file-lib.sh
+
 DOWNLOAD_PATH="$DOWNLOAD_DIR"
 mkdir -p "$DOWNLOAD_PATH"
 
@@ -18,38 +21,6 @@ FORGE_JAR_INSTALLER_PATH_FILE="${DOWNLOAD_PATH}/forge-1.12.2-14.23.5.2803-instal
 MC_VANILLA_SERVER_JAR_URL="https://launcher.mojang.com/v1/objects/886945bfb2b978778c3a0288fd7fab09d315b25f/server.jar"
 MC_VANILLA_SERVER_PATH_FILE="${DOWNLOAD_PATH}/server.jar"
 
-# Download a file and make sure it exists.
-# First arg is filepath, second is the URL.
-function download_file() {
-  FILEPATH="$1"
-  URL="$2"
-
-  if ! [ -f "$FILEPATH" ]; then
-    echo "Downloading $(basename "$FILEPATH") to '$FILEPATH' from '$URL'..."
-    wget "$URL" -O "$FILEPATH"
-  else
-    echo "File $(basename "$FILEPATH") already exists at '$FILEPATH'"
-  fi
-
-}
-
-# Validate a SHA256 check file.
-# First arg is the filepath, second is the checksum.
-function validate_sha256() {
-  FILEPATH="$1"
-  GOOD_CHECKSUM="$2"
-
-  FILE_CHECKSUM="$(sha256sum "$FILEPATH" | cut -f1 -d' ')"
-
-  if [ "$FILE_CHECKSUM" = "$GOOD_CHECKSUM" ]; then
-    echo "File $(basename $FILEPATH) is valid."
-  else
-    echo "File at $(basename $FILEPATH) gives bad checksum!"
-    echo "[ Found  ] $FILE_CHECKSUM"
-    echo "[ Expect ] $GOOD_CHECKSUM"
-    exit 1
-  fi
-}
 
 download_file "$RLCRAFT_SERVER_PACK_PATH" "$RLCRAFT_SERVER_PACK_URL"
 validate_sha256 "$RLCRAFT_SERVER_PACK_PATH" "2f68b4ff3f8587c163309f6f4b23b8993dcedd79b32f2a828b5421fbc66511b9" || exit 1

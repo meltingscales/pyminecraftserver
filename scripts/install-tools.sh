@@ -8,17 +8,17 @@ if ! hash java &>/dev/null; then
 fi
 
 if ! hash unzip &>/dev/null; then
-  sudo apt-get install unzip
+  sudo apt-get install -y unzip
 fi
 
 if ! hash bc &>/dev/null; then
-    sudo apt-get install bc
+    sudo apt-get install -y bc
 fi
 
 if ! hash htop &>/dev/null; then
-  sudo apt-get install htop
+  sudo apt-get install -y htop
 fi
 
 if ! hash lynx &>/dev/null; then
-  sudo apt-get install lynx
+  sudo apt-get install -y lynx
 fi

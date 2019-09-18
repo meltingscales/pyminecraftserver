@@ -23,6 +23,18 @@ The password is `vagrant`, and the username is `vagrant`.
 
 Connect on port `25565` with RLCraft.
 
+There is also a map running on <https://127.0.0.1:8123>!
+
+## Adding mods
+
+Add mods to `scripts/mods.list` and then run `vagrant provision`.
+
+See the file for the format. It should be somewhat obvious.
+
+Then, restart your server.
+
+Mods will be prefixed with an obvious identifier if you need to remove them.
+
 ## Crap! It broke!
 
 If you think the downloads are f*#%ed or missing or corrupted, then delete the

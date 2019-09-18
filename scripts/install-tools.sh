@@ -11,6 +11,10 @@ if ! hash unzip &>/dev/null; then
   sudo apt-get install unzip
 fi
 
+if ! hash htop &>/dev/null; then
+  sudo apt-get install htop
+fi
+
 if ! hash bc &>/dev/null; then
     sudo apt-get install bc
 fi

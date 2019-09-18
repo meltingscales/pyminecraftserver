@@ -8,7 +8,11 @@ if ! hash java &>/dev/null; then
 fi
 
 if ! hash unzip &>/dev/null; then
-  sudo apt-get install -y unzip
+    sudo apt-get install -y unzip
+fi
+
+if ! hash tree &>/dev/null; then
+    sudo apt-get install -y tree
 fi
 
 if ! hash bc &>/dev/null; then

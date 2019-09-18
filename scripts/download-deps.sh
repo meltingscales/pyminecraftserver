@@ -92,6 +92,7 @@ function install_modpack() {
 
         echo "Copying all of these files into server:"
         tree -L 1
+        sleep 1
 
         # Copy everything.
         cp -r ./ "$SERVER_PATH"
@@ -132,22 +133,7 @@ fi
 if [ ! -d "${SERVER_PATH}/mods" ]; then
     echo "Installing modpack from ZIP file..."
 
-    if true; then #TODO make this false and use new function install_modpack
-
-        # Old way of unzipping mods into modpack
-        mkdir -p /tmp/modpack/
-        unzip $RLCRAFT_SERVER_PACK_PATH -d /tmp/modpack/
-
-        # The * is because it's a nested folder. Thanks guys.
-        pushd /tmp/modpack/*
-        cp -r ./* "$SERVER_PATH"
-        popd
-
-        rm -r /tmp/modpack/
-    else
-
-        # new way TODO make this work
-        install_modpack "$SERVER_PATH" "$RLCRAFT_SERVER_PACK_PATH"
-    fi
-
+    install_modpack "$SERVER_PATH" "$RLCRAFT_SERVER_PACK_PATH"
+else
+    echo "Modpack is installed because ${SERVER_PATH}/mods exists."
 fi

@@ -1,6 +1,6 @@
 # Modded-Forge-Vagrant
 
-This is a Vagrant-enabled automatic setup for a modded Minecraft server packs.
+This is a Vagrant-enabled automatic setup for modded Minecraft server packs.
 
 Note: You don't necessarily need to use this to run the server.
 

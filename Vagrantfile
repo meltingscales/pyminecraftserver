@@ -64,12 +64,13 @@ Vagrant.configure('2') do |config|
     config.vm.synced_folder HOST_DIRS[folder_name], GUEST_DIRS[folder_name]
   end
 
-  config.vm.provision 'shell', path: 'scripts/install-tools.sh', run: 'always'
-
   # Fix for windows line endings. Maybe. TODO Test this on windows with CRLF git settings (issue 1).
   config.vm.provision 'shell', run: 'always', inline: <<SCRIPT
+  sudo apt-get install dos2unix
   dos2unix /minecraft/scripts/*
 SCRIPT
+
+  config.vm.provision 'shell', path: 'scripts/install-tools.sh', run: 'always'
 
   config.vm.provision 'shell', path: 'scripts/download-deps.sh', run: 'always', env: GUEST_DIRS
 

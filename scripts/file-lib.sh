@@ -16,7 +16,7 @@ function download_file() {
     local FILEPATH="$1"
     local URL="$2"
 
-    if ! [ -f "$FILEPATH" ]; then
+    if ! [[ -f "$FILEPATH" ]]; then
         echo "Downloading $(basename "$FILEPATH") to '$FILEPATH' from '$URL'..."
         wget "$URL" -O "$FILEPATH" -nv # -nv means show errors
     else
@@ -33,10 +33,10 @@ function validate_sha256() {
 
     local FILE_CHECKSUM="$(sha256sum "$FILEPATH" | cut -f1 -d' ')"
 
-    if [ "$FILE_CHECKSUM" = "$GOOD_CHECKSUM" ]; then
-        echo "File $(basename $FILEPATH) is valid."
+    if [[ "$FILE_CHECKSUM" = "$GOOD_CHECKSUM" ]]; then
+        echo "File $(basename "$FILEPATH") is valid."
     else
-        echo "File at $(basename $FILEPATH) gives bad checksum!"
+        echo "File at $(basename "$FILEPATH") gives bad checksum!"
         echo "[ Found  ] $FILE_CHECKSUM"
         echo "[ Expect ] $GOOD_CHECKSUM"
         exit 1

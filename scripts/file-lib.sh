@@ -18,7 +18,7 @@ function download_file() {
 
     if ! [ -f "$FILEPATH" ]; then
         echo "Downloading $(basename "$FILEPATH") to '$FILEPATH' from '$URL'..."
-        wget "$URL" -O "$FILEPATH" -sS # -sS means silent but show errors
+        wget "$URL" -O "$FILEPATH" -nv # -nv means show errors
     else
         echo "File $(basename "$FILEPATH") already exists at '$FILEPATH'"
     fi

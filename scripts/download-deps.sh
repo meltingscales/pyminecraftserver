@@ -12,7 +12,7 @@ mkdir -p "$DOWNLOAD_PATH"
 SERVER_PATH="$SERVER_DIR"
 mkdir -p "$SERVER_PATH"
 
-RLCRAFT_SERVER_PACK_URL=`jq ".url" "$SCRIPT_DIR/modpack-zip.json"`
+RLCRAFT_SERVER_PACK_URL=`jq ".url" "$SCRIPT_DIR/modpack-zip.json" -r`
 RLCRAFT_SERVER_PACK_PATH="${DOWNLOAD_PATH}/modpack-files.zip"
 
 FORGE_JAR_INSTALLER_URL="`cat "$SCRIPT_DIR/forge-installer.location"`"

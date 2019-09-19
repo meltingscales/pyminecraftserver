@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Recommended Java flags for servers.
+# From <https://aikar.co/2018/07/02/tuning-the-jvm-g1gc-garbage-collector-flags-for-minecraft/>
+JAVA_NONMEM_FLAGS="-XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=35 -XX:+AlwaysPreTouch -XX:+ParallelRefProcEnabled -Dusing.aikars.flags=mcflags.emc.gs"
+
 # KB of mem on this system.
 MEM_KB=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
 
@@ -41,7 +45,7 @@ else
         exit 1
     fi
 
-    java -Xmx${MEM_TO_USE}M -Xms1G -jar "$(ls forge-*-universal.jar)" -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M
+    java ${JAVA_NONMEM_FLAGS} -Xmx${MEM_TO_USE}M -jar "$(ls forge-*-universal.jar)"
 
     popd
 fi

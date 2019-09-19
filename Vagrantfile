@@ -66,7 +66,7 @@ Vagrant.configure('2') do |config|
 
   # Fix for windows line endings. Maybe. TODO Test this on windows with CRLF git settings (issue 1).
   config.vm.provision 'shell', run: 'always', inline: <<SCRIPT
-  sudo apt-get install dos2unix
+  sudo apt-get install dos2unix -y
   dos2unix /minecraft/scripts/*
 SCRIPT
 

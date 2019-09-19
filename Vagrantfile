@@ -66,6 +66,11 @@ Vagrant.configure('2') do |config|
 
   config.vm.provision 'shell', path: 'scripts/install-tools.sh', run: 'always'
 
+  # Fix for windows line endings. Maybe. TODO Test this on windows with CRLF git settings (issue 1).
+  config.vm.provision 'shell', run: 'always', inline: <<SCRIPT
+  dos2unix /minecraft/scripts/*
+SCRIPT
+
   config.vm.provision 'shell', path: 'scripts/download-deps.sh', run: 'always', env: GUEST_DIRS
 
   config.vm.provision 'shell', path: 'scripts/download-mods.sh', run: 'always', env: GUEST_DIRS

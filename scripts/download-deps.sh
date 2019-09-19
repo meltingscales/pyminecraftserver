@@ -70,7 +70,7 @@ function install_modpack() {
     local files_in_modpack_zip=$(echo_number_files "./")
     local total_objs_in_modpack_zip=$((folders_in_modpack_zip + files_in_modpack_zip))
 
-    echo "In the modpack zip ($(basename $MODPACK_ZIP_PATHls), you got:"
+    echo "In the modpack zip ($(basename $MODPACK_ZIP_PATH), you got:"
     echo "$folders_in_modpack_zip folders,"
     echo "$files_in_modpack_zip files,"
     echo "$total_objs_in_modpack_zip total objects."
@@ -110,7 +110,7 @@ function install_modpack() {
 }
 
 # If the server installer doesn't exist, set it up.
-if [ ! -f "${SERVER_PATH}/installer.jar" ]; then
+if [[ ! -f "${SERVER_PATH}/installer.jar" ]]; then
 
     echo "Setting up Forge server..."
 
@@ -133,7 +133,7 @@ else
 fi
 
 # If the modpack is not installed (i.e. mods folder does not exist), then...
-if [ ! -d "${SERVER_PATH}/mods" ]; then
+if [[ ! -d "${SERVER_PATH}/mods" ]]; then
     echo "Installing modpack from ZIP file..."
 
     install_modpack "$SERVER_PATH" "$RLCRAFT_SERVER_PACK_PATH"

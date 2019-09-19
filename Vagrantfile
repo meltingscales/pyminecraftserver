@@ -3,7 +3,7 @@
 require 'fileutils'
 
 # Hardware settings
-MEMORY = (3 * 1024) # 5 GB in megabytes
+MEMORY = (3 * 1024) # GB in megabytes
 CORES = 4
 
 # Host directories to mount to guest vm

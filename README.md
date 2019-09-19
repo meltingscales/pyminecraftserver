@@ -1,7 +1,6 @@
-# RLCraft-Vagrant
+# Modded-Forge-Vagrant
 
-This is a Vagrant-enabled automatic setup for a modded Minecraft server pack
-called RLCraft.
+This is a Vagrant-enabled automatic setup for a modded Minecraft server packs.
 
 Note: You don't necessarily need to use this to run the server.
 
@@ -52,19 +51,27 @@ Followed by a `vagrant reload`.
 
 ## Connecting
 
-Connect on port `25565` with RLCraft.
+Connect on port `25565` with your modded minecraft instance.
 
 There is also a map running on <http://127.0.0.1:8123>!
 
 ## Adding mods
 
-Add mods to `scripts/mods.list` and then run `vagrant provision`.
+Add mods to `scripts/config/mods.list` and then run `vagrant provision`.
 
 See the file for the format. It should be somewhat obvious.
 
 Then, restart your server.
 
+If there are mod conflicts, you might need to delete old mods at `persistent/server/mods/__vagrant_*.jar`
+
 Mods will be prefixed with an obvious identifier if you need to remove them.
+
+## Changing modpacks/forge version
+
+Edit the JSON file in `scripts/config/modpack-zip.json` to your heart's content.
+
+See `scripts/config/old/**` for examples of other modpacks.
 
 ## Crap! It broke!
 

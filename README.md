@@ -5,7 +5,8 @@ called RLCraft.
 
 ## Running
 
-[Install Vagrant](https://www.vagrantup.com/), and run `vagrant up` in this
+[Install Vagrant](https://www.vagrantup.com/), install
+[VirtualBox](https://www.virtualbox.org/), and run `vagrant up` in this
 directory in a terminal.
 
 Because I'm too dumb and lazy to figure out how to automate this, you need to
@@ -14,8 +15,9 @@ start the server.
 
 The commands are:
 
-`cd /minecraft/scripts/`
-`./run-server.sh`
+-   `cd /minecraft/scripts/`
+
+-   `./run-server.sh`
 
 The password is `vagrant`, and the username is `vagrant`.
 

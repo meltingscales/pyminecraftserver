@@ -20,13 +20,14 @@ MEM_RATIO=0.8
 MEM_TO_USE=$(echo "$MEM_MB*$MEM_RATIO" | bc | cut -f1 -d.)
 
 # Cap memory.
-if [[ $MEM_TO_USE -gt $MEM_CAP ]] ; then
+if [[ $MEM_TO_USE -gt $MEM_CAP ]]; then
     MEM_TO_USE=${MEM_CAP}
 fi
 
 if sudo netstat -tulpn | grep :25565; then
     echo 'Minecraft server is up because port 25565 is bound. See above command output for PID.'
-elif ps -ax | grep "[f]orge-.*-universal.jar"; then
+elif [[ $(ps -ax | grep "[f]orge-.*-universal.jar" | grep -v "[m]inecraft-.*-client.jar") ]]; then
+    # Forge server is running and it's NOT a minecraft client...
     echo 'Minecraft server is up because a Forge JAR is running but port 25565 is not bound yet.'
 else
     echo 'Minecraft server is not running.'

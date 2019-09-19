@@ -45,7 +45,7 @@ else
         exit 1
     fi
 
-    java ${JAVA_NONMEM_FLAGS} -Xmx${MEM_TO_USE}M -jar "$(ls forge-*-universal.jar)"
+    java ${JAVA_NONMEM_FLAGS} -Xms${MEM_TO_USE}M -Xmx${MEM_TO_USE}M -jar "$(ls forge-*-universal.jar)"
 
     popd
 fi

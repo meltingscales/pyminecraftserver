@@ -3,6 +3,11 @@
 This is a Vagrant-enabled automatic setup for a modded Minecraft server pack
 called RLCraft.
 
+Note: You don't necessarily need to use this to run the server.
+
+You could just use this to construct the server and then just copy
+`/persistent/server/` elsewhere.
+
 ## Running
 
 [Install Vagrant](https://www.vagrantup.com/), install

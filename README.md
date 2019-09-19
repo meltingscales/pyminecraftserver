@@ -26,6 +26,30 @@ The commands are:
 
 The password is `vagrant`, and the username is `vagrant`.
 
+## Errors
+
+Something like:
+
+```
+Vagrant was unable to mount VirtualBox shared folders. This is usually
+because the filesystem "vboxsf" is not available. This filesystem is
+...
+```
+
+Means you should either run:
+
+`vagrant reload`
+
+or
+
+```
+vagrant plugin install vagrant-vbguest
+vagrant vbguest
+```
+
+Followed by a `vagrant reload`.
+
+
 ## Connecting
 
 Connect on port `25565` with RLCraft.

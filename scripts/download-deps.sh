@@ -124,6 +124,9 @@ if [ ! -f "${SERVER_PATH}/installer.jar" ]; then
     # Accept EULA. Is this illegal? Probably. :p
     sed -i 's/false/true/g' eula.txt
 
+    # Delete mods folder as we use it to test if modpack has been installed.
+    rm -r mods/
+
     popd
 else
     echo 'Forge server is set up.'

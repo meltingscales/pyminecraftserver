@@ -6,11 +6,19 @@ MEM_KB=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
 # MB of mem on this system.
 MEM_MB=$(echo "$MEM_KB/1024" | bc)
 
+# Max mem to use regardless of system memory.
+MEM_CAP=6000
+
 # Use 80% of memory.
 MEM_RATIO=0.8
 
 # Memory to use. Split off the dot.
 MEM_TO_USE=$(echo "$MEM_MB*$MEM_RATIO" | bc | cut -f1 -d.)
+
+# Cap memory.
+if [[ $MEM_TO_USE -gt $MEM_CAP ]] ; then
+    MEM_TO_USE=${MEM_CAP}
+fi
 
 if sudo netstat -tulpn | grep :25565; then
     echo 'Minecraft server is up because port 25565 is bound. See above command output for PID.'

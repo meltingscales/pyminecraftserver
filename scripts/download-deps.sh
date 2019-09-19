@@ -70,7 +70,7 @@ function install_modpack() {
     local files_in_modpack_zip=$(echo_number_files "./")
     local total_objs_in_modpack_zip=$((folders_in_modpack_zip + files_in_modpack_zip))
 
-    echo "In the modpack zip ($(basename "$($MODPACK_ZIP_PATH)"), you got:"
+    echo "In the modpack zip ($(basename $MODPACK_ZIP_PATHls), you got:"
     echo "$folders_in_modpack_zip folders,"
     echo "$files_in_modpack_zip files,"
     echo "$total_objs_in_modpack_zip total objects."

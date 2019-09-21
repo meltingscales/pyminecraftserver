@@ -7,6 +7,10 @@ Note: You don't necessarily need to use this to run the server.
 You could just use this to construct the server and then just copy
 `/persistent/server/` elsewhere.
 
+## In english
+
+This is a collection of some scripts that set up a modded minecraft server for you.
+
 ## Running
 
 [Install Vagrant](https://www.vagrantup.com/), install

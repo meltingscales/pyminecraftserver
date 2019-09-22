@@ -4,7 +4,7 @@
 #exit 1
 
 # Import file lib fns
-. file-lib.sh 2 > /dev/null || . $SCRIPT_DIR/file-lib.sh
+. file-lib.sh 2>/dev/null || . $SCRIPT_DIR/file-lib.sh
 
 DOWNLOAD_PATH="$DOWNLOAD_DIR"
 mkdir -p "$DOWNLOAD_PATH"
@@ -12,10 +12,17 @@ mkdir -p "$DOWNLOAD_PATH"
 SERVER_PATH="$SERVER_DIR"
 mkdir -p "$SERVER_PATH"
 
-RLCRAFT_SERVER_PACK_URL=`jq ".url" "$SCRIPT_DIR/config/modpack-zip.json" -r`
+SCRIPT_PATH=$SCRIPT_DIR
+
+CONFIG_PATH="$SCRIPT_PATH/config/"
+MODPACK_SCRIPT_FOLDER_NAME="`cat $CONFIG_PATH/modpack.txt`"
+
+MODPACK_CONFIG_PATH="$CONFIG_PATH/$MODPACK_SCRIPT_FOLDER_NAME/"
+
+RLCRAFT_SERVER_PACK_URL=`jq ".url" "$MODPACK_CONFIG_PATH/modpack-zip.json" -r`
 RLCRAFT_SERVER_PACK_PATH="${DOWNLOAD_PATH}/modpack-files.zip"
 
-FORGE_JAR_INSTALLER_URL="`jq ".forge_url" "$SCRIPT_DIR/config/modpack-zip.json" -r`"
+FORGE_JAR_INSTALLER_URL="`jq ".forge_url" "$MODPACK_CONFIG_PATH/modpack-zip.json" -r`"
 FORGE_JAR_INSTALLER_PATH_FILE="${DOWNLOAD_PATH}/forge-installer.jar"
 
 download_file "$RLCRAFT_SERVER_PACK_PATH" "$RLCRAFT_SERVER_PACK_URL"

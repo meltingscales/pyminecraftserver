@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Import file lib fns
-. file-lib.sh 2 > /dev/null || . $SCRIPT_DIR/file-lib.sh
+. file-lib.sh 2>/dev/null || . $SCRIPT_DIR/file-lib.sh
 
 # Mod directory
 MOD_DIR="${SERVER_DIR}/mods/"

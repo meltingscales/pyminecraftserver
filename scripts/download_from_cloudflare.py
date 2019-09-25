@@ -12,7 +12,7 @@ import sys
 from requests import Response
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--url", required=True, default='')
+parser.add_argument("--url", required=True)
 parser.add_argument("--file", required=True)
 
 location = "./.cache_download_file"

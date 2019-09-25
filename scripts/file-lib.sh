@@ -24,8 +24,10 @@ function download_file() {
     if ! [[ -f "$FILEPATH" ]]; then
         echo "Downloading $(basename "$FILEPATH") to '$FILEPATH' from '$URL'..."
 
+        wget "$URL" -O "$FILEPATH" -nv
+
         # If downloading the file fails,
-        if ! wget "$URL" -O "$FILEPATH" -nv; then # -nv means only show errors
+        if [[ $? != "0" ]]; then # -nv means only show errors
             rm "$FILEPATH"
             echo "Downloading $URL failed!"
             exit 1

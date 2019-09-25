@@ -20,6 +20,7 @@ function apt_ensure_exists() {
 
 # If java command does not exist, then install Java 8.
 apt_ensure_exists "java" "openjdk-8-jdk"
+apt_ensure_exists "http" "httpie"
 
 apt_ensure_exists "unzip" "unzip"
 apt_ensure_exists "tree" "tree"

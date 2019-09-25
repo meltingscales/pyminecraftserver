@@ -1,7 +1,10 @@
 #! /usr/bin/env python3
 
 import argparse
+import time
+
 import cfscrape
+from joblib import Memory
 import os
 import sys
 
@@ -12,12 +15,35 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--url", required=True, default='')
 parser.add_argument("--file", required=True)
 
+location = "./.cache_download_file"
+file_memory_cache = Memory(location)
 
-def get_results_from_url(url: str) -> Response:
+
+def get_results_from_url(url: str, cache=file_memory_cache) -> Response:
+    """
+    Given a URL, return the response from it.
+    This function caches responses that are HTTP 200.
+    :param cache: The cache.
+    :param url: The URL.
+    :return: a Response object.
+    """
     print("getting " + url)
 
-    scraper = cfscrape.create_scraper()
-    return scraper.get(url)
+    def _get_results_from_url(url):
+        """Internal method that caches per-URL responses."""
+        print(f"We have never seen {url} before.")
+        scraper = cfscrape.create_scraper()
+        result = scraper.get(url)
+
+        if result.status_code != 200:
+            raise Exception("Response did not return HTTP OK!")
+
+        return result
+
+    # Cache our function.
+    _get_results_from_url = cache.cache(_get_results_from_url)
+
+    return _get_results_from_url(url)
 
 
 def save_response_to_file(response: Response, filepath: str):
@@ -27,7 +53,7 @@ def save_response_to_file(response: Response, filepath: str):
     print("To this:")
     print(filepath)
 
-    if(response.status_code != 200):
+    if response.status_code != 200:
         print("Response is NOT ok. Cloudflare is on to us!")
         exit(1)
 
@@ -37,11 +63,23 @@ def save_response_to_file(response: Response, filepath: str):
     print("Saved!")
 
 
+def test_cache():
+    def expensive_function(x):
+        time.sleep(1)
+        return x + 1
+
+    print(file_memory_cache.cache(expensive_function)(3))
+
+
+def test_download():
+    save_response_to_file(
+        get_results_from_url('https://www.curseforge.com/minecraft/modpacks/volcano-block/download/2786736/file'),
+        'test.zip')
+
+
 if __name__ == '__main__':
-    # # test
-    # save_response_to_file(
-    #     get_results_from_url('https://www.curseforge.com/minecraft/modpacks/volcano-block/download/2786736/file'),
-    #     'test.zip')
+
+    test_download()
 
     args = parser.parse_args()
 

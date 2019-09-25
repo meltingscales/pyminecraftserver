@@ -10,6 +10,11 @@ function echo_number_files() {
     echo $(ls -l "$1" | grep "^-" | wc -l)
 }
 
+# Echo a file's size in bytes.
+function echo_file_size_in_bytes() {
+    du -B 1 "$1"  | cut -f1
+}
+
 # Download a file and make sure it exists.
 # First arg is filepath, second is the URL.
 function download_file() {
@@ -18,7 +23,23 @@ function download_file() {
 
     if ! [[ -f "$FILEPATH" ]]; then
         echo "Downloading $(basename "$FILEPATH") to '$FILEPATH' from '$URL'..."
-        wget "$URL" -O "$FILEPATH" -nv || exit 1 # -nv means show errors
+
+        # If downloading the file fails,
+        if ! wget "$URL" -O "$FILEPATH" -nv; then # -nv means only show errors
+            rm "$FILEPATH"
+            echo "Downloading $URL failed!"
+            exit 1
+        fi
+
+        # If the file is zero bytes,
+        if [[ "$(echo_file_size_in_bytes "$FILEPATH")" = "0" ]]; then
+            echo "File downloaded is empty!"
+            rm "$FILEPATH"
+            echo "Downloading $URL failed!"
+            exit 1
+        fi
+
+
     else
         echo "File $(basename "$FILEPATH") already exists at '$FILEPATH'"
     fi

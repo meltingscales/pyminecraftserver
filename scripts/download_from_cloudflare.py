@@ -19,7 +19,21 @@ location = "./.cache_download_file"
 file_memory_cache = Memory(location)
 
 
-def get_results_from_url(url: str, cache=file_memory_cache) -> Response:
+def get_results_from_url(url: str) -> Response:
+    """
+    Given a URL, return the response from it.
+    :param url: The URL.
+    :return: a Response object.
+    """
+    print("getting " + url)
+
+    scraper = cfscrape.create_scraper()
+    result = scraper.get(url)
+
+    return result
+
+
+def get_results_from_url_cached(url: str, cache=file_memory_cache) -> Response:
     """
     Given a URL, return the response from it.
     This function caches responses that are HTTP 200.
@@ -27,7 +41,6 @@ def get_results_from_url(url: str, cache=file_memory_cache) -> Response:
     :param url: The URL.
     :return: a Response object.
     """
-    print("getting " + url)
 
     def _get_results_from_url(url):
         """Internal method that caches per-URL responses."""
@@ -65,7 +78,7 @@ def save_response_to_file(response: Response, filepath: str):
 
 def test_cache():
     def expensive_function(x):
-        time.sleep(1)
+        time.sleep(5)
         return x + 1
 
     print(file_memory_cache.cache(expensive_function)(3))
@@ -73,14 +86,15 @@ def test_cache():
 
 def test_download():
     save_response_to_file(
-        get_results_from_url('https://www.curseforge.com/minecraft/modpacks/volcano-block/download/2786736/file'),
+        get_results_from_url_cached(
+            'https://www.curseforge.com/minecraft/modpacks/volcano-block/download/2786736/file'),
         'test.zip')
 
 
 if __name__ == '__main__':
 
-    test_download()
+    # test_download()
 
     args = parser.parse_args()
 
-    save_response_to_file(get_results_from_url(args.url), args.file)
+    save_response_to_file(get_results_from_url_cached(args.url), args.file)

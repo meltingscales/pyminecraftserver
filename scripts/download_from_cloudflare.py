@@ -11,10 +11,6 @@ import sys
 # see https://github.com/Anorov/cloudflare-scrape
 from requests import Response
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--url", required=True)
-parser.add_argument("--file", required=True)
-
 location = "./.cache_download_file"
 file_memory_cache = Memory(location)
 
@@ -92,8 +88,10 @@ def test_download():
 
 
 if __name__ == '__main__':
-
     # test_download()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--url", required=True)
+    parser.add_argument("--file", required=True)
 
     args = parser.parse_args()
 

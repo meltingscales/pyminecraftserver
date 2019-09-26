@@ -76,6 +76,7 @@ sudo apt-get update
 
 sudo apt-get install -y software-properties-common
 sudo add-apt-repository ppa:deadsnakes/ppa --yes
+sudo apt-get update
 
 sudo apt-get install -y python3.7
 

@@ -44,7 +44,7 @@ def get_results_from_url_cached(url: str, cache=file_memory_cache) -> Response:
 
     def _get_results_from_url(url):
         """Internal method that caches per-URL responses."""
-        print(f"We have never seen {url} before.")
+        print('We have never seen %s before.'.format(url))
         scraper = cfscrape.create_scraper()
         result = scraper.get(url)
 

@@ -70,6 +70,17 @@ Vagrant.configure('2') do |config|
   dos2unix /minecraft/scripts/*
 SCRIPT
 
+  # Run this once.
+  config.vm.provision 'shell', inline: <<SHELL
+sudo apt-get update
+
+sudo apt-get install -y software-properties-common
+sudo add-apt-repository ppa:deadsnakes/ppa --yes
+
+sudo apt-get install -y python3.7
+
+SHELL
+
   config.vm.provision 'shell', path: 'scripts/install-tools.sh', run: 'always'
 
   config.vm.provision 'shell', path: 'scripts/download-deps.sh', run: 'always', env: GUEST_DIRS

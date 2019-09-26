@@ -7,7 +7,9 @@ class MinecraftServer:
         self.path = os.path.abspath(path)
 
         if not os.path.exists(self.path):
-            raise Exception("Path does not exist!")
+            raise Exception("Path does not exist!", self.path)
+
+
 
 
 if __name__ == '__main__':

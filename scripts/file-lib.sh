@@ -26,6 +26,9 @@ function download_file() {
 
         wget "$URL" -O "$FILEPATH" -nv
 
+        # TODO: Use python script.
+#        python3 ${SCRIPT_DIR}/download_from_cloudflare.py --url "$URL" --file "$FILEPATH"
+
         # If downloading the file fails,
         if [[ $? != "0" ]]; then # -nv means only show errors
             rm "$FILEPATH"

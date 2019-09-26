@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-sudo apt-get update
-
 # Make sure that a command exists.
 # If not, install a package that provides it using apt.
 # ARG1 is the command name that can determine if a package is installed.
@@ -21,6 +19,12 @@ function apt_ensure_exists() {
 # If java command does not exist, then install Java 8.
 apt_ensure_exists "java" "openjdk-8-jdk"
 apt_ensure_exists "http" "httpie"
+
+# Install deps from scripts dir.
+pushd "$SCRIPT_DIR"
+python3.7 -m pip install pipenv
+python3.7 -m pipenv install --system
+popd
 
 apt_ensure_exists "unzip" "unzip"
 apt_ensure_exists "tree" "tree"

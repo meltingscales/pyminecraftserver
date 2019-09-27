@@ -3,10 +3,31 @@ import glob
 import shutil
 import tempfile
 import time
+import uuid
 import zipfile
 
 from downloadlib import *
-from typing import Union
+from typing import Union, Tuple
+
+
+def folders_in_path(path: str) -> int:
+    i = 0
+
+    for subpath in os.listdir(path):
+        if os.path.isdir(os.path.join(path, subpath)):
+            i += 1
+
+    return i
+
+
+def files_in_path(path: str) -> int:
+    i = 0
+
+    for subpath in os.listdir(path):
+        if os.path.isfile(os.path.join(path, subpath)):
+            i += 1
+
+    return i
 
 
 class MinecraftServer:
@@ -15,10 +36,27 @@ class MinecraftServer:
                         '-XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=35 -XX:+AlwaysPreTouch ' \
                         '-XX:+ParallelRefProcEnabled -Dusing.aikars.flags=mcflags.emc.gs '
 
-    def clean_temp_dir(self) -> str:
+    def get_memory_flags(self) -> str:
+        return "-Xms{mb}M -Xmx{mb}M".format(mb=self.memory)
+
+    def __init__(self, name: str, path: str, memory=2000):
+
+        self.name = name
+
+        self.memory = memory
+
+        self.path = os.path.abspath(path)
+
+        if not os.path.exists(self.path):
+            os.makedirs(self.path)
+
+    def get_base_temp_dir(self) -> str:
+        return os.path.join(tempfile.gettempdir(), self.__class__.__name__)
+
+    def generate_clean_temp_dir(self) -> str:
         """Make a new temporary directory and make sure it's empty."""
 
-        tempdir = os.path.join(tempfile.gettempdir(), self.__class__.__name__, self.name)
+        tempdir = os.path.join(self.get_base_temp_dir(), self.name, str(uuid.uuid4()))
 
         if os.path.exists(tempdir):
             shutil.rmtree(tempdir)
@@ -30,6 +68,8 @@ class MinecraftServer:
     def delete(self):
 
         print("About to delete '{}'...".format(self.path))
+
+        time.sleep(10)
 
         shutil.rmtree(self.path)
 
@@ -69,20 +109,10 @@ class MinecraftServer:
     def is_forge_installer_downloaded(self):
         return self.get_forge_installer_path() is not None
 
-    def __init__(self, name: str, path: str):
-
-        self.name = name
-
-        self.path = os.path.abspath(path)
-
-        if not os.path.exists(self.path):
-            os.makedirs(self.path)
-
     def eula_path(self):
         return os.path.join(self.path, 'eula.txt')
 
     def accept_eula(self):
-        eula_content = None
 
         # read content
         with open(self.eula_path(), 'r') as f:
@@ -99,9 +129,10 @@ class MinecraftServer:
                 f.write(line)
 
     def run_forge_server(self):
-        os.system('cd {path}; java {flags} -Xms2000M -Xmx2000M -jar {forge_jar}'.format(
+        os.system('cd {path}; java {flags} {memflags} -jar {forge_jar}'.format(
             path=self.path,
             flags=self.JAVA_NONMEM_FLAGS,
+            memflags=self.get_memory_flags(),
             forge_jar=self.get_forge_server_path(),
         ))
 
@@ -122,7 +153,7 @@ class MinecraftServer:
 
         modpack_response = get_results_from_url(url)
 
-        tempdir = self.clean_temp_dir()
+        tempdir = self.generate_clean_temp_dir()
 
         modpack_zip_temp_filepath = os.path.join(tempdir, response_filename(modpack_response))
 
@@ -136,13 +167,19 @@ class MinecraftServer:
             zip_ref.extractall(modpack_unzipped_path)
         print("Done!")
 
+        folders = folders_in_path(modpack_unzipped_path)
+        files = files_in_path(modpack_unzipped_path)
+
+        print("{} folders, {} files from the zip file.".format(
+            folders, files))
+
 
 if __name__ == '__main__':
 
     # Don't want to delete my shit. hardcoded path.
     mcs = MinecraftServer(
-        name='volcano block',
-        path='/media/henryfbp/media/GitHub/Modded-Forge-Vagrant/persistent/server/')
+        name='Volcano Block 1.0.28',
+        path='../persistent/server/')
 
     print(mcs)
 

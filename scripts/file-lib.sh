@@ -27,7 +27,7 @@ function download_file() {
 #        wget "$URL" -O "$FILEPATH" -nv
 
         # TODO: Use python script.
-        python3.7 -m pipenv run python ${SCRIPT_DIR}/download_from_cloudflare.py --url "$URL" --file "$FILEPATH"
+        python3.7 -m pipenv run python ${SCRIPT_DIR}/download_file.py --url "$URL" --file "$FILEPATH"
 
         # If downloading the file fails,
         if [[ $? != "0" ]]; then # -nv means only show errors

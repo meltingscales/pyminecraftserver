@@ -1,6 +1,6 @@
 import argparse
 
-from pyminecraftserver.downloadlib import save_response_to_file, get_results_from_url
+from pyminecraftserver.DownloadLib import save_response_to_file, get_results_from_url
 
 
 def test_download():

@@ -13,8 +13,6 @@ if __name__ == '__main__':
 
     print(minecraft_server)
 
-    print("Forge dir: {}".format(minecraft_server.get_forge_server_path()))
-
     # If forge server is not installed,
     if not minecraft_server.is_forge_server_installed():
         # Install a modpack from a URL.

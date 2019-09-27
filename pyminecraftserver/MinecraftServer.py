@@ -1,11 +1,13 @@
 import json
 import glob
+import os
 import shutil
 import tempfile
+import time
 import uuid
 import zipfile
 
-from pyminecraftserver.downloadlib import *
+from pyminecraftserver import DownloadLib
 from typing import Union
 
 
@@ -49,19 +51,22 @@ class MinecraftServer:
                         '-XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=35 -XX:+AlwaysPreTouch ' \
                         '-XX:+ParallelRefProcEnabled -Dusing.aikars.flags=mcflags.emc.gs '
 
+    # Prefix mods with this to make it obvious they're downloaded by the tool
+    _mod_prefix = '_pyminecraft_'
+
     def get_memory_flags(self) -> str:
         return "-Xms{mb}M -Xmx{mb}M".format(mb=self.memory)
 
     def __str__(self):
 
         booltochar = {True: "x",
-                     False: ' '}
+                      False: ' '}
 
         return """
         Minecraft Server '{mcservername}':
         PATH: '{path}'
         [{does_forge_installer_exist}] Forge installer downloaded: '{forge_installer_path}'
-        [{is_forge_installed}] Forge jar: '{forge_server_path}'
+        [{is_forge_installed}] Forge jar installation: '{forge_server_path}'
         """.format(
             mcservername=self.name,
             path=self.server_path,
@@ -109,11 +114,11 @@ class MinecraftServer:
 
     def download_forge_installer(self, url):
 
-        forge_response = get_results_from_url(url)
+        forge_response = DownloadLib.get_results_from_url(url)
 
-        forge_file_path = os.path.join(self.server_path, url_filename(url))
+        forge_file_path = os.path.join(self.server_path, DownloadLib.url_filename(url))
 
-        save_response_to_file(forge_response, forge_file_path)
+        DownloadLib.save_response_to_file(forge_response, forge_file_path)
 
     def get_forge_installer_path(self) -> Union[str, None]:
         results = glob.glob(os.path.join(self.server_path, "forge-*-installer.jar"))
@@ -190,16 +195,16 @@ class MinecraftServer:
 
     def install_modpack_zip_from_url(self, url):
 
-        modpack_response = get_results_from_url(url)
+        modpack_response = DownloadLib.get_results_from_url(url)
 
         tempdir = self.generate_clean_temp_dir()
 
-        modpack_zip_temp_filepath = os.path.join(tempdir, response_filename(modpack_response))
+        modpack_zip_temp_filepath = os.path.join(tempdir, DownloadLib.response_filename(modpack_response))
 
         modpack_unzipped_path = os.path.join(tempdir, 'unzipped')
         os.makedirs(modpack_unzipped_path)
 
-        save_response_to_file(modpack_response, modpack_zip_temp_filepath)
+        DownloadLib.save_response_to_file(modpack_response, modpack_zip_temp_filepath)
 
         print("Extracting to '{}'...".format(modpack_unzipped_path))
         with zipfile.ZipFile(modpack_zip_temp_filepath, 'r') as zip_ref:
@@ -273,8 +278,15 @@ class MinecraftServer:
 
     def install_mod_from_url(self, url: str):
 
-        prefix = '_pyminecraft_'
+        mod_response = DownloadLib.get_results_from_url(url)
+        mod_filename = self._mod_prefix + DownloadLib.response_filename(mod_response)
+        mod_filepath = os.path.join(self.get_mods_folder_path(), mod_filename)
 
-        mod_response = 'potato'
+        # If mod not downloaded,
+        if not os.path.isfile(mod_filepath):
+            print("[ DL ]", end='')
+            DownloadLib.save_response_to_file(mod_response, mod_filepath)
+        else:
+            print("[ OK ]", end='')
 
-        raise Exception(mod_response)
+        print(" '{}' at '{}'".format(mod_filename, mod_filepath))

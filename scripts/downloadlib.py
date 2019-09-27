@@ -11,7 +11,7 @@ import sys
 # see https://github.com/Anorov/cloudflare-scrape
 from requests import Response
 
-location = "./.cache_download_file"
+location = os.path.join(os.path.abspath(os.path.dirname(__file__)), ".cache_download_file")
 file_memory_cache = Memory(location)
 
 
@@ -85,5 +85,3 @@ def test_download():
         get_results_from_url_cached(
             'https://www.curseforge.com/minecraft/modpacks/volcano-block/download/2786736/file'),
         'test.zip')
-
-

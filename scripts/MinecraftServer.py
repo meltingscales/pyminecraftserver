@@ -1,9 +1,11 @@
 import os
 import glob
 import shutil
+import tempfile
 import time
+import zipfile
 
-import downloadlib
+from downloadlib import *
 from typing import Union
 
 
@@ -13,6 +15,18 @@ class MinecraftServer:
                         '-XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=35 -XX:+AlwaysPreTouch ' \
                         '-XX:+ParallelRefProcEnabled -Dusing.aikars.flags=mcflags.emc.gs '
 
+    def clean_temp_dir(self) -> str:
+        """Make a new temporary directory and make sure it's empty."""
+
+        tempdir = os.path.join(tempfile.gettempdir(), self.__class__.__name__, self.name)
+
+        if os.path.exists(tempdir):
+            shutil.rmtree(tempdir)
+
+        os.makedirs(tempdir)
+
+        return tempdir
+
     def delete(self):
 
         print("About to delete '{}'...".format(self.path))
@@ -21,11 +35,11 @@ class MinecraftServer:
 
     def download_forge_installer(self, url):
 
-        forge_response = downloadlib.get_results_from_url_cached(url)
+        forge_response = get_results_from_url(url)
 
-        forge_file_path = os.path.join(self.path, os.path.basename(url))
+        forge_file_path = os.path.join(self.path, url_filename(url))
 
-        downloadlib.save_response_to_file(forge_response, forge_file_path)
+        save_response_to_file(forge_response, forge_file_path)
 
     def get_forge_installer_path(self) -> Union[str, None]:
         results = glob.glob(os.path.join(self.path, "forge-*-installer.jar"))
@@ -52,10 +66,13 @@ class MinecraftServer:
     def is_forge_server_installed(self):
         return self.get_forge_server_path() is not None
 
-    def is_forge_installer_installed(self):
+    def is_forge_installer_downloaded(self):
         return self.get_forge_installer_path() is not None
 
-    def __init__(self, path: str):
+    def __init__(self, name: str, path: str):
+
+        self.name = name
+
         self.path = os.path.abspath(path)
 
         if not os.path.exists(self.path):
@@ -101,23 +118,38 @@ class MinecraftServer:
             self.run_forge_server()
             self.accept_eula()
 
+    def install_modpack_zip_from_url(self, url):
+
+        modpack_response = get_results_from_url(url)
+
+        tempdir = self.clean_temp_dir()
+
+        modpack_zip_temp_filepath = os.path.join(tempdir, response_filename(modpack_response))
+
+        modpack_unzipped_path = os.path.join(tempdir, 'unzipped')
+        os.makedirs(modpack_unzipped_path)
+
+        save_response_to_file(modpack_response, modpack_zip_temp_filepath)
+
+        print("Extracting to '{}'...".format(modpack_unzipped_path))
+        with zipfile.ZipFile(modpack_zip_temp_filepath, 'r') as zip_ref:
+            zip_ref.extractall(modpack_unzipped_path)
+        print("Done!")
+
 
 if __name__ == '__main__':
 
     # Don't want to delete my shit. hardcoded path.
-    mcs = MinecraftServer(path='/media/henryfbp/media/GitHub/Modded-Forge-Vagrant/persistent/server/')
+    mcs = MinecraftServer(
+        name='volcano block',
+        path='/media/henryfbp/media/GitHub/Modded-Forge-Vagrant/persistent/server/')
 
     print(mcs)
 
     print("Forge dir: {}".format(mcs.get_forge_server_path()))
 
-    if not mcs.is_forge_installer_installed():
-        mcs.download_forge_installer(
-            'https://files.minecraftforge.net/maven/net/minecraftforge/forge/'
-            '1.12.2-14.23.5.2846/forge-1.12.2-14.23.5.2846-installer.jar')
-
+    # If forge server is not installed,
     if not mcs.is_forge_server_installed():
-        mcs.install_forge_server()
-
-    mcs.accept_eula()
-    mcs.run_forge_server()
+        # Install a modpack from a URL.
+        mcs.install_modpack_zip_from_url(
+            'https://www.curseforge.com/minecraft/modpacks/volcano-block/download/2786736/file')

@@ -1,6 +1,6 @@
 import argparse
 
-from downloadlib import save_response_to_file, get_results_from_url_cached, test_download
+from downloadlib import save_response_to_file, get_results_from_url, test_download
 
 if __name__ == '__main__':
     test_download()
@@ -10,4 +10,4 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    save_response_to_file(get_results_from_url_cached(args.url), args.file)
+    save_response_to_file(get_results_from_url(args.url), args.file)

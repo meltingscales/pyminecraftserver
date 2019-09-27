@@ -102,9 +102,3 @@ def test_cache():
 
     print(file_memory_cache.cache(expensive_function)(3))
 
-
-def test_download():
-    save_response_to_file(
-        get_results_from_url(
-            'https://www.curseforge.com/minecraft/modpacks/volcano-block/download/2786736/file'),
-        'test.zip')

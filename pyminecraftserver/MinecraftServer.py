@@ -52,6 +52,25 @@ class MinecraftServer:
     def get_memory_flags(self) -> str:
         return "-Xms{mb}M -Xmx{mb}M".format(mb=self.memory)
 
+    def __str__(self):
+
+        booltochar = {True: "x",
+                     False: ' '}
+
+        return """
+        Minecraft Server '{mcservername}':
+        PATH: '{path}'
+        [{does_forge_installer_exist}] Forge installer downloaded: '{forge_installer_path}'
+        [{is_forge_installed}] Forge jar: '{forge_server_path}'
+        """.format(
+            mcservername=self.name,
+            path=self.server_path,
+            does_forge_installer_exist=booltochar[self.is_forge_installer_downloaded()],
+            forge_installer_path=self.get_forge_installer_path(),
+            is_forge_installed=booltochar[self.is_forge_server_installed()],
+            forge_server_path=self.get_forge_server_path(),
+        )
+
     def __init__(self, name: str, server_path: str, memory=2000):
 
         ensure_java_exists()

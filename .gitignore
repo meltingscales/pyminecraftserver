@@ -2,3 +2,4 @@
 .vagrant/
 .cache*/
 __pycache__/
+persistent/

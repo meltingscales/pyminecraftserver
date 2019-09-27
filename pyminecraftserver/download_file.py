@@ -1,6 +1,6 @@
 import argparse
 
-from downloadlib import save_response_to_file, get_results_from_url, test_download
+from pyminecraftserver.downloadlib import save_response_to_file, get_results_from_url, test_download
 
 if __name__ == '__main__':
     test_download()

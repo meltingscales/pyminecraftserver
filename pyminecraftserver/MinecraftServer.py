@@ -1,14 +1,12 @@
 import json
-import os
 import glob
 import shutil
 import tempfile
-import time
 import uuid
 import zipfile
 
-from downloadlib import *
-from typing import Union, Tuple
+from pyminecraftserver.downloadlib import *
+from typing import Union
 
 
 def folders_in_path(path: str) -> int:
@@ -258,24 +256,6 @@ class MinecraftServer:
 
         prefix = '_pyminecraft_'
 
-        mod_response = dow
+        mod_response = 'potato'
 
-
-if __name__ == '__main__':
-
-    # Don't want to delete my shit. hardcoded path.
-    mcs = MinecraftServer(
-        name='Volcano Block 1.0.28',
-        server_path='../persistent/server/')
-
-    print(mcs)
-
-    print("Forge dir: {}".format(mcs.get_forge_server_path()))
-
-    # If forge server is not installed,
-    if not mcs.is_forge_server_installed():
-        # Install a modpack from a URL.
-        mcs.install_modpack_zip_from_url(
-            'https://www.curseforge.com/minecraft/modpacks/volcano-block/download/2786736/file')
-
-    mcs.install_mods_from_json_file('./config/Volcano-Block-1.0.28/mods.json')
+        raise Exception(mod_response)

@@ -8,6 +8,10 @@ from typing import Union
 
 
 class MinecraftServer:
+    JAVA_NONMEM_FLAGS = '-XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 ' \
+                        '-XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 ' \
+                        '-XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=35 -XX:+AlwaysPreTouch ' \
+                        '-XX:+ParallelRefProcEnabled -Dusing.aikars.flags=mcflags.emc.gs '
 
     def delete(self):
 
@@ -61,17 +65,41 @@ class MinecraftServer:
         return os.path.join(self.path, 'eula.txt')
 
     def accept_eula(self):
-        raise NotImplementedError
+        eula_content = None
+
+        # read content
+        with open(self.eula_path(), 'r') as f:
+            eula_content = f.readlines()
+
+        # replace false with true. This is illegal. Shh.
+        for i in range(0, len(eula_content)):
+            if 'false' in eula_content[i]:
+                eula_content[i] = eula_content[i].replace('false', 'true')
+
+        # Write content
+        with open(self.eula_path(), 'w') as f:
+            for line in eula_content:
+                f.write(line)
 
     def run_forge_server(self):
-        pass
+        os.system('cd {path}; java {flags} -Xms2000M -Xmx2000M -jar {forge_jar}'.format(
+            path=self.path,
+            flags=self.JAVA_NONMEM_FLAGS,
+            forge_jar=self.get_forge_server_path(),
+        ))
 
     def install_forge_server(self):
 
         forge_location = self.get_forge_installer_path()
 
-        os.chdir(self.path)
-        os.system('java -jar {} --installServer'.format(forge_location))
+        os.system('cd {path}; java -jar {forgejar} --installServer'.format(
+            path=self.path,
+            forgejar=forge_location))
+
+        # If the EULA does not exist, we must run the forge server once to accept it.
+        if not os.path.exists(self.eula_path()):
+            self.run_forge_server()
+            self.accept_eula()
 
 
 if __name__ == '__main__':
@@ -90,3 +118,6 @@ if __name__ == '__main__':
 
     if not mcs.is_forge_server_installed():
         mcs.install_forge_server()
+
+    mcs.accept_eula()
+    mcs.run_forge_server()

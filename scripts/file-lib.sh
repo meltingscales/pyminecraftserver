@@ -24,10 +24,10 @@ function download_file() {
     if ! [[ -f "$FILEPATH" ]]; then
         echo "Downloading $(basename "$FILEPATH") to '$FILEPATH' from '$URL'..."
 
-#        wget "$URL" -O "$FILEPATH" -nv
+        wget "$URL" -O "$FILEPATH" -nv
 
-        # TODO: Use python script.
-        python3.7 -m pipenv run python ${SCRIPT_DIR}/download_file.py --url "$URL" --file "$FILEPATH"
+        # TODO: Convert all BASH to Python and remove Vagrant totally.
+#        python3.7 -m pipenv run python ${SCRIPT_DIR}/download_file.py --url "$URL" --file "$FILEPATH"
 
         # If downloading the file fails,
         if [[ $? != "0" ]]; then # -nv means only show errors

@@ -144,6 +144,12 @@ class MinecraftServer:
                 # Install forge server.
                 mcserver.install_forge_server()
 
+        if 'mods' in json_data:
+            mod_urls = json_data['mods']
+
+            for name, url in mod_urls.items():
+                mcserver.install_mod_from_url(url)
+
         return mcserver
 
     def get_base_temp_dir(self) -> str:

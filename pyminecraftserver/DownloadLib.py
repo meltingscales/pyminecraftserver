@@ -80,10 +80,9 @@ def get_results_from_url(url: str, cache=file_memory_cache) -> Response:
 
 
 def save_response_to_file(response: Response, filepath: str):
-    print('{}\n'
-          '-->\n'
-          '{}...'.format(response,
-                         filepath))
+    print('''{}\n-->\n{}...'''.format(
+        response.url,
+        filepath))
 
     if response.status_code != 200:
         print("Response is NOT ok. Cloudflare is on to us!")
@@ -101,4 +100,3 @@ def test_cache():
         return x + 1
 
     print(file_memory_cache.cache(expensive_function)(3))
-

@@ -50,7 +50,7 @@ def spawn_graphical_terminal(command: str):
     ensure_java_exists()
 
     if is_tool('gnome-terminal') and is_tool('bash'):
-        os.system('''gnome-terminal -x bash -c "{}" '''.format(command))
+        os.system('''gnome-terminal -- bash -c "{}" '''.format(command))
     elif is_tool('cmd'):
         raise NotImplementedError('lol windows :)')
     else:

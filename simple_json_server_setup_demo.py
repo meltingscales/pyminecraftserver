@@ -6,7 +6,6 @@ import os
 
 from pyminecraftserver.MinecraftServer import MinecraftServer
 
-
 if __name__ == '__main__':
     file_dir = os.path.dirname(__file__)
 

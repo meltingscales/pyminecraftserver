@@ -51,7 +51,7 @@ def spawn_graphical_terminal(command: str):
     ensure_java_exists()
 
     if is_tool('gnome-terminal') and is_tool('bash'):
-        cmd = '''gnome-terminal -- bash -c "{}" '''.format(command)
+        cmd = '''gnome-terminal -- bash -c "{}; sleep 99999"  '''.format(command)
 
         os.system(cmd)
     elif is_tool('cmd'):

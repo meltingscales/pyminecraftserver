@@ -67,14 +67,15 @@ def get_available_virtual_memory_in_mb():
     # bytes -> kb -> mb
     return (psutil.virtual_memory().available / 1024) / 1024
 
-def get_minecraft_server_memory_in_mb(cap=6000):
 
+def get_minecraft_server_memory_in_mb(cap=6000):
     mem = get_available_virtual_memory_in_mb()
 
     if mem >= cap:
         return cap
     else:
         return mem
+
 
 class MinecraftServer:
     JAVA_NONMEM_FLAGS = '-XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 ' \
@@ -98,6 +99,7 @@ class MinecraftServer:
         PATH: '{path}'
         [{does_forge_installer_exist}] Forge installer downloaded: '{forge_installer_path}'
         [{is_forge_installed}] Forge jar installation: '{forge_server_path}'
+        Java memory flags: '{mem_flags}'
         """.format(
             mcservername=self.name,
             path=self.server_path,
@@ -105,6 +107,7 @@ class MinecraftServer:
             forge_installer_path=self.get_forge_installer_path(),
             is_forge_installed=booltochar[self.is_forge_server_installed()],
             forge_server_path=self.get_forge_server_path(),
+            mem_flags=self.get_memory_flags(),
         )
 
     def __init__(self, name: str, server_path: str):
@@ -141,7 +144,7 @@ class MinecraftServer:
                 # Install forge server.
                 mcserver.install_forge_server()
 
-        raise NotImplementedError()
+        return mcserver
 
     def get_base_temp_dir(self) -> str:
         return os.path.join(tempfile.gettempdir(), self.__class__.__name__)

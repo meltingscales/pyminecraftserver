@@ -15,3 +15,5 @@ if __name__ == '__main__':
     )
 
     print(minecraft_server)
+
+    minecraft_server.run_forge_server_graphical()

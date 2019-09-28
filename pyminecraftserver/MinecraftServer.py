@@ -6,6 +6,7 @@ import tempfile
 import time
 import uuid
 import zipfile
+import psutil
 
 from pyminecraftserver import DownloadLib
 from typing import Union
@@ -62,6 +63,19 @@ def ensure_java_exists(java_exe='java'):
         raise Exception("Could not find `{}` executable on the path.".format(java_exe))
 
 
+def get_available_virtual_memory_in_mb():
+    # bytes -> kb -> mb
+    return (psutil.virtual_memory().available / 1024) / 1024
+
+def get_minecraft_server_memory_in_mb(cap=6000):
+
+    mem = get_available_virtual_memory_in_mb()
+
+    if mem >= cap:
+        return cap
+    else:
+        return mem
+
 class MinecraftServer:
     JAVA_NONMEM_FLAGS = '-XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 ' \
                         '-XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 ' \
@@ -72,7 +86,7 @@ class MinecraftServer:
     _mod_prefix = '_pyminecraft_'
 
     def get_memory_flags(self) -> str:
-        return "-Xms{mb}M -Xmx{mb}M".format(mb=self.memory)
+        return "-Xms{mb}M -Xmx{mb}M".format(mb=get_minecraft_server_memory_in_mb())
 
     def __str__(self):
 
@@ -93,13 +107,11 @@ class MinecraftServer:
             forge_server_path=self.get_forge_server_path(),
         )
 
-    def __init__(self, name: str, server_path: str, memory=2000):
+    def __init__(self, name: str, server_path: str):
 
         ensure_java_exists()
 
         self.name = name
-
-        self.memory = memory
 
         self.server_path = os.path.abspath(server_path)
 
@@ -108,10 +120,16 @@ class MinecraftServer:
 
     @classmethod
     def from_json(cls, server_path, json_path):
-        server = MinecraftServer(server_path=server_path)
+        """
+        Given a JSON file and a server folder path, detect an MC server and attempt to set it up from that file.
+        """
 
         with open(json_path, 'r') as f:
             json_data = json.load(f)
+
+        server_name = json_data['name']
+
+        mcserver = MinecraftServer()
 
         raise NotImplementedError()
 

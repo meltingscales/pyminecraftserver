@@ -9,3 +9,4 @@ python_version = '3'
 [packages]
 cfscrape = '*'
 joblib = '*'
+psutil = '==5.6.3'

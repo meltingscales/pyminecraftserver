@@ -1,6 +1,6 @@
 # pyminecraftserver
 
-todo :)
+This is a Python module to automate the process of setting up, configuring, and installing mods to minecraft servers.
 
 ## Setup
 
@@ -10,4 +10,8 @@ Then, run `pipenv install` to create a new virtualenv with all of the deps speci
 
 You can also run `pipenv install --system` to install the dependencies globally.
 
-You can run the demo with `pipenv run python simple_setup_demo.py` or `python simple_setup_demo.py`.
+## Demos
+
+Run `simple_server_setup_demo.py`, `simple_json_server_setup_demo.py` or `interactive-server-starter.py` for a taste of how this library can work.
+
+I highly recommend `interactive-server-starter.py`.

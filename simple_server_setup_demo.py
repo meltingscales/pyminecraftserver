@@ -27,4 +27,7 @@ if __name__ == '__main__':
     minecraft_server.install_mod_from_url(  # dynmap
         'https://www.curseforge.com/minecraft/mc-mods/dynmapforge/download/2722448/file')
 
+    print(minecraft_server)
+
+
     minecraft_server.run_forge_server_graphical()

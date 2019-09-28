@@ -193,12 +193,12 @@ class MinecraftServer:
         return mcserver
 
     def get_base_temp_dir(self) -> str:
-        return os.path.join(self.server_path, 'tmp', self.__class__.__name__)
+        return os.path.join(self.server_path, 'tmp')
 
     def generate_clean_temp_dir(self) -> str:
         """Make a new temporary directory and make sure it's empty."""
 
-        tempdir = os.path.join(self.get_base_temp_dir(), self.name, str(uuid.uuid4()))
+        tempdir = os.path.join(self.get_base_temp_dir())
 
         if os.path.exists(tempdir):
             shutil.rmtree(tempdir)

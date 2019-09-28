@@ -10,8 +10,8 @@ if __name__ == '__main__':
     file_dir = os.path.dirname(__file__)
 
     minecraft_server = MinecraftServer.from_json(
-        server_path=os.path.join(file_dir, 'persistent', 'example_server_setup_from_json'),
-        json_path='./modpack-config/Glacial-Awakening-1.1.0/glacial-awakening-modpack.json'
+        server_path=os.path.join(file_dir, 'servers', 'example_server_setup_from_json-glacial-awakening'),
+        json_path='./modpack-config/glacial-awakening.json'
     )
 
     print(minecraft_server)

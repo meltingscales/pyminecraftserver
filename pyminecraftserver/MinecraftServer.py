@@ -42,8 +42,7 @@ def is_tool(name):
 
 
 def spawn_graphical_terminal(command: str):
-    """
-    Spawn a graphical terminal and run a command in it.
+    """    Spawn a graphical terminal and run a command in it.
 
     This will search for various tools like 'cmd' and 'gnome-terminal' and try to use ones that exist.
     """

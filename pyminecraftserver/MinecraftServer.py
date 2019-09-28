@@ -153,11 +153,15 @@ class MinecraftServer:
         if not os.path.exists(self.server_path):
             os.makedirs(self.server_path)
 
-    def set_server_properties(self, key, value):
+    def set_server_properties(self, key: str, value: str):
         """Modify the server's 'server.properties' file."""
+        key = str(key)
+        value = str(value)
+
         prop = self.get_properties()
 
         prop[key] = value
+        print("server.properties: {}={}".format(key, value))
 
         self.save_properties(prop)
 
@@ -184,11 +188,17 @@ class MinecraftServer:
             else:
                 mcserver.install_forge_server()
 
+        # Download extra mods.
         if 'extra_mods' in json_data:
             mod_urls = json_data['extra_mods']
 
             for name, url in mod_urls.items():
                 mcserver.install_mod_from_url(url)
+
+        # Apply JSON file's custom properties.
+        if 'server_properties_overrides' in json_data:
+            for key, value in json_data['server_properties_overrides'].items():
+                mcserver.set_server_properties(key, value)
 
         return mcserver
 
@@ -300,7 +310,6 @@ class MinecraftServer:
 
         # If the EULA does not exist, we must run the forge server once to accept it.
         if not os.path.exists(self.get_eula_path()):
-
             print("EULA does not exist. Running MC Forge headless once.")
 
             self.run_forge_server_headless()

@@ -176,12 +176,12 @@ class MinecraftServer:
 
         # If the forge server isn't installed,
         if not mcserver.is_forge_server_installed():
-            # Install modpack from a zip file.
-            mcserver.install_modpack_zip_from_url(json_data['modpack_zip_url'])
 
-            # If the modpack doesn't come with Forge installed as most don't,
-            if not mcserver.is_forge_server_installed():
-                # Install forge server.
+            # If the forge installer isn't downloaded,
+            if not mcserver.is_forge_installer_downloaded():
+                # Install modpack from a zip file.
+                mcserver.install_modpack_zip_from_url(json_data['modpack_zip_url'])
+            else:
                 mcserver.install_forge_server()
 
         if 'mods' in json_data:

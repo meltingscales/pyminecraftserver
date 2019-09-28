@@ -70,7 +70,7 @@ def get_available_virtual_memory_in_mb() -> int:
     return int((psutil.virtual_memory().available / 1024) / 1024)
 
 
-def get_minecraft_server_memory_in_mb(cap=6000):
+def get_minecraft_server_memory_in_mb(cap=8000):
     mem = get_available_virtual_memory_in_mb()
 
     if mem >= cap:

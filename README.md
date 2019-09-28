@@ -6,7 +6,7 @@ This is a Python module to automate the process of setting up, configuring, and 
 
 Install `pipenv` with `pip install pipenv`.
 
-Then, run `pipenv install` to create a new virtualenv with all of the deps specified in `./Pipfile`.
+Then, run `pipenv install` in this directory to create a new virtualenv with all of the deps specified in `./Pipfile`.
 
 You can also run `pipenv install --system` to install the dependencies globally.
 

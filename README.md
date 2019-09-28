@@ -15,3 +15,13 @@ You can also run `pipenv install --system` to install the dependencies globally.
 Run `simple_server_setup_demo.py`, `simple_json_server_setup_demo.py` or `interactive-server-starter.py` for a taste of how this library can work.
 
 I highly recommend `interactive-server-starter.py`.
+
+## Troubleshooting
+
+### Windows Path Length Limit
+
+Because Windows&trade;, you may need to enable paths longer than 260 characters.
+
+Yes, I know. That's short as hell.
+
+See <https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file?redirectedfrom=MSDN#enable-long-paths-in-windows-10-version-1607-and-later> for advice on doing this.

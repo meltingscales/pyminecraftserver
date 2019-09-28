@@ -191,7 +191,7 @@ class MinecraftServer:
         return mcserver
 
     def get_base_temp_dir(self) -> str:
-        return os.path.join(tempfile.gettempdir(), self.__class__.__name__)
+        return os.path.join(self.server_path, 'tmp', self.__class__.__name__)
 
     def generate_clean_temp_dir(self) -> str:
         """Make a new temporary directory and make sure it's empty."""

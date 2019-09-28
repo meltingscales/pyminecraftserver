@@ -184,8 +184,8 @@ class MinecraftServer:
             else:
                 mcserver.install_forge_server()
 
-        if 'mods' in json_data:
-            mod_urls = json_data['mods']
+        if 'extra_mods' in json_data:
+            mod_urls = json_data['extra_mods']
 
             for name, url in mod_urls.items():
                 mcserver.install_mod_from_url(url)

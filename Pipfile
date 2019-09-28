@@ -9,3 +9,5 @@ python_version = '3'
 [packages]
 cfscrape = '*'
 joblib = '*'
+psutil = '*'
+jproperties = '*'

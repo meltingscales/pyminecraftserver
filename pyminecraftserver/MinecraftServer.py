@@ -129,7 +129,17 @@ class MinecraftServer:
 
         server_name = json_data['name']
 
-        mcserver = MinecraftServer()
+        mcserver = MinecraftServer(name=server_name, server_path=server_path)
+
+        # If the forge server isn't installed,
+        if not mcserver.is_forge_server_installed():
+            # Install modpack from a zip file.
+            mcserver.install_modpack_zip_from_url(json_data['modpack_zip_url'])
+
+            # If the modpack doesn't come with Forge installed as most don't,
+            if not mcserver.is_forge_server_installed():
+                # Install forge server.
+                mcserver.install_forge_server()
 
         raise NotImplementedError()
 

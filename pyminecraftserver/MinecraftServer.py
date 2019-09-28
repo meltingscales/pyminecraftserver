@@ -280,7 +280,11 @@ class MinecraftServer:
 
     def run_forge_server_headless(self):
         """Runs the forge server in the current terminal. Non-interactive."""
-        os.system(self.get_forge_server_command())
+        command = (self.get_forge_server_command())
+
+        print(command)
+
+        os.system(command)
 
     def run_forge_server_graphical(self):
         """Run the forge server in a new terminal window in a graphical environment."""
@@ -296,6 +300,9 @@ class MinecraftServer:
 
         # If the EULA does not exist, we must run the forge server once to accept it.
         if not os.path.exists(self.get_eula_path()):
+
+            print("EULA does not exist. Running MC Forge headless once.")
+
             self.run_forge_server_headless()
 
         self.accept_eula()

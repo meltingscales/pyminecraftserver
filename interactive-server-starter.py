@@ -32,7 +32,7 @@ if __name__ == '__main__':
     json_name = os.path.splitext(os.path.basename(json_filepath))[0]
 
     mcserver = MinecraftServer.from_json(
-        server_path=os.path.join(current_dir, 'servers', ('interactive-server-starter-' + json_name)),
+        server_path=os.path.join(current_dir, 'servers', 'interactive-server-starter', json_name),
         json_path=json_filepath
     )
 

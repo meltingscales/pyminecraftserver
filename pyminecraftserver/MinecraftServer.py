@@ -55,7 +55,9 @@ def spawn_graphical_terminal(command: str):
 
         os.system(cmd)
     elif is_tool('cmd'):
-        raise NotImplementedError('lol windows :)')
+        cmd = ''' cmd.exe /K {} '''.format(command)
+
+        os.system(cmd)
     else:
         raise NotImplementedError("Not implemented for this system.")
 

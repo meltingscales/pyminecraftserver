@@ -1,3 +1,7 @@
+"""
+This script is an interactive script that goes over all of your JSON server config files and lets you run them.
+"""
+
 import os
 import pathlib
 
@@ -31,3 +35,5 @@ if __name__ == '__main__':
         server_path=os.path.join(current_dir, 'servers', ('interactive-server-starter-' + json_name)),
         json_path=json_filepath
     )
+
+    mcserver.run_forge_server_graphical()

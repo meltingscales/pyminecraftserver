@@ -29,5 +29,9 @@ if __name__ == '__main__':
 
     print(minecraft_server)
 
+    # Now let's modify the server properties a bit!
+    minecraft_server.set_server_properties('pvp', "false")
+    minecraft_server.set_server_properties('max-players', "4")
+    minecraft_server.set_server_properties('motd', 'Volcano Block set up with Python!')
 
     minecraft_server.run_forge_server_graphical()

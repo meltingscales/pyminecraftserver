@@ -7,6 +7,7 @@ import time
 import uuid
 import zipfile
 import psutil
+from jproperties import Properties
 
 from pyminecraftserver import DownloadLib
 from typing import Union
@@ -50,7 +51,9 @@ def spawn_graphical_terminal(command: str):
     ensure_java_exists()
 
     if is_tool('gnome-terminal') and is_tool('bash'):
-        os.system('''gnome-terminal -- bash -c "{}" '''.format(command))
+        cmd = '''gnome-terminal -- bash -c "{}" '''.format(command)
+
+        os.system(cmd)
     elif is_tool('cmd'):
         raise NotImplementedError('lol windows :)')
     else:
@@ -62,9 +65,9 @@ def ensure_java_exists(java_exe='java'):
         raise Exception("Could not find `{}` executable on the path.".format(java_exe))
 
 
-def get_available_virtual_memory_in_mb():
+def get_available_virtual_memory_in_mb() -> int:
     # bytes -> kb -> mb
-    return (psutil.virtual_memory().available / 1024) / 1024
+    return int((psutil.virtual_memory().available / 1024) / 1024)
 
 
 def get_minecraft_server_memory_in_mb(cap=6000):
@@ -84,6 +87,34 @@ class MinecraftServer:
 
     # Prefix mods with this to make it obvious they're downloaded by the tool
     _mod_prefix = '_pyminecraft_'
+
+    def get_mods_folder_path(self) -> str:
+        return os.path.join(self.server_path, 'mods')
+
+    def get_eula_path(self) -> str:
+        return os.path.join(self.server_path, 'eula.txt')
+
+    def get_properties_path(self) -> str:
+        return os.path.join(self.server_path, 'server.properties')
+
+    def get_properties(self) -> Properties:
+        """
+        :return: The properties file of this server.
+        """
+
+        p = Properties()
+
+        with open(self.get_properties_path(), 'rb') as f:
+            p.load(f, 'utf-8')
+
+        return p
+
+    def save_properties(self, p: Properties):
+
+        with open(self.get_properties_path(), 'wb') as f:
+            p.store(f, encoding='utf-8')
+
+        return
 
     def get_memory_flags(self) -> str:
         return "-Xms{mb}M -Xmx{mb}M".format(mb=get_minecraft_server_memory_in_mb())
@@ -119,6 +150,14 @@ class MinecraftServer:
 
         if not os.path.exists(self.server_path):
             os.makedirs(self.server_path)
+
+    def set_server_properties(self, key, value):
+        """Modify the server's 'server.properties' file."""
+        prop = self.get_properties()
+
+        prop[key] = value
+
+        self.save_properties(prop)
 
     @classmethod
     def from_json(cls, server_path, json_path):
@@ -210,16 +249,10 @@ class MinecraftServer:
     def is_forge_installer_downloaded(self):
         return self.get_forge_installer_path() is not None
 
-    def get_mods_folder_path(self):
-        return os.path.join(self.server_path, 'mods')
-
-    def eula_path(self):
-        return os.path.join(self.server_path, 'eula.txt')
-
     def accept_eula(self):
 
         # read content
-        with open(self.eula_path(), 'r') as f:
+        with open(self.get_eula_path(), 'r') as f:
             eula_content = f.readlines()
 
         # replace false with true. This is illegal. Shh.
@@ -228,7 +261,7 @@ class MinecraftServer:
                 eula_content[i] = eula_content[i].replace('false', 'true')
 
         # Write content
-        with open(self.eula_path(), 'w') as f:
+        with open(self.get_eula_path(), 'w') as f:
             for line in eula_content:
                 f.write(line)
 
@@ -260,9 +293,10 @@ class MinecraftServer:
             forgejar=forge_location))
 
         # If the EULA does not exist, we must run the forge server once to accept it.
-        if not os.path.exists(self.eula_path()):
+        if not os.path.exists(self.get_eula_path()):
             self.run_forge_server_headless()
-            self.accept_eula()
+
+        self.accept_eula()
 
     def install_modpack_zip_from_url(self, url):
 

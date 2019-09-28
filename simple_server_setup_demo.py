@@ -1,3 +1,7 @@
+"""
+This demo shows you how to use Python code to set up minecraft servers.
+"""
+
 import os
 
 from pyminecraftserver.MinecraftServer import MinecraftServer
@@ -9,7 +13,7 @@ if __name__ == '__main__':
     # Don't want to delete people's stuff -- hardcoded path.
     minecraft_server = MinecraftServer(
         name='Volcano Block 1.0.28',
-        server_path=os.path.join(file_dir, 'persistent', 'example_server'))
+        server_path=os.path.join(file_dir, 'persistent', 'example_server_setup_from_code'))
 
     print(minecraft_server)
 
@@ -19,4 +23,8 @@ if __name__ == '__main__':
         minecraft_server.install_modpack_zip_from_url(
             'https://www.curseforge.com/minecraft/modpacks/volcano-block/download/2786736/file')
 
-    minecraft_server.install_mods_from_json_file('./config/Volcano-Block-1.0.28/mods.json')
+    # Install mods from a URL.
+    minecraft_server.install_mod_from_url(  # dynmap
+        'https://www.curseforge.com/minecraft/mc-mods/dynmapforge/download/2722448/file')
+
+    minecraft_server.run_forge_server_graphical()

@@ -40,6 +40,23 @@ def is_tool(name):
     return find_executable(name) is not None
 
 
+def spawn_graphical_terminal(command: str):
+    """
+    Spawn a graphical terminal and run a command in it.
+
+    This will search for various tools like 'cmd' and 'gnome-terminal' and try to use ones that exist.
+    """
+
+    ensure_java_exists()
+
+    if is_tool('gnome-terminal') and is_tool('bash'):
+        os.system('''gnome-terminal -x bash -c "{}" '''.format(command))
+    elif is_tool('cmd'):
+        raise NotImplementedError('lol windows :)')
+    else:
+        raise NotImplementedError("Not implemented for this system.")
+
+
 def ensure_java_exists(java_exe='java'):
     if not is_tool(java_exe):
         raise Exception("Could not find `{}` executable on the path.".format(java_exe))
@@ -88,6 +105,15 @@ class MinecraftServer:
 
         if not os.path.exists(self.server_path):
             os.makedirs(self.server_path)
+
+    @classmethod
+    def from_json(cls, server_path, json_path):
+        server = MinecraftServer(server_path=server_path)
+
+        with open(json_path, 'r') as f:
+            json_data = json.load(f)
+
+        raise NotImplementedError()
 
     def get_base_temp_dir(self) -> str:
         return os.path.join(tempfile.gettempdir(), self.__class__.__name__)
@@ -172,13 +198,22 @@ class MinecraftServer:
 
         print("EULA accepted.")
 
-    def run_forge_server(self):
-        os.system('cd {path}; java {flags} {memflags} -jar {forge_jar}'.format(
+    def get_forge_server_command(self) -> str:
+        """Return a command that will run the Forge server."""
+        return 'cd "{path}"; java {flags} {memflags} -jar "{forge_jar}"'.format(
             path=self.server_path,
             flags=self.JAVA_NONMEM_FLAGS,
             memflags=self.get_memory_flags(),
             forge_jar=self.get_forge_server_path(),
-        ))
+        )
+
+    def run_forge_server_headless(self):
+        """Runs the forge server in the current terminal. Non-interactive."""
+        os.system(self.get_forge_server_command())
+
+    def run_forge_server_graphical(self):
+        """Run the forge server in a new terminal window in a graphical environment."""
+        spawn_graphical_terminal(self.get_forge_server_command())
 
     def install_forge_server(self):
 
@@ -190,7 +225,7 @@ class MinecraftServer:
 
         # If the EULA does not exist, we must run the forge server once to accept it.
         if not os.path.exists(self.eula_path()):
-            self.run_forge_server()
+            self.run_forge_server_headless()
             self.accept_eula()
 
     def install_modpack_zip_from_url(self, url):
@@ -265,7 +300,6 @@ class MinecraftServer:
                 shutil.copytree(abs_source_path, abs_dest_path)
 
     def install_mods_from_json_file(self, mods_list_json_path):
-        print('wow ok >:^(')
 
         with open(mods_list_json_path, 'r') as file:
             jsonobj: dict = json.load(file)

@@ -1,15 +1,14 @@
 language: python            # this works for Linux but is an error on macOS or Windows
 
-addons:
-  apt:
-    packages:
-      - oracle-java8-installer
-
 matrix:
   include:
     - name: "Python 3.7.1 on Xenial Linux"
       python: 3.7           # this works for Linux but is ignored on macOS or Windows
       before_install:
+        - sudo add-apt-repository ppa:webupd8team/java
+        - sudo apt-get update
+        - sudo apt-get install oracle-java8-installer
+
         - sudo update-java-alternatives --list || true
         - sudo update-java-alternatives --set oracle-java8
         - java -version

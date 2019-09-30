@@ -11,7 +11,7 @@ import sys
 # see https://github.com/Anorov/cloudflare-scrape
 from requests import Response
 
-cache_dir = os.path.abspath(os.path.expanduser("~/cache/.pyminecraftserver/"))
+cache_dir = os.path.abspath(os.path.expanduser("~/.cache/pyminecraftserver/"))
 location = os.path.join(os.path.abspath(os.path.dirname(__file__)), cache_dir)
 file_memory_cache = Memory(location)
 

@@ -3,6 +3,11 @@ language: java            # this works for Linux but is an error on macOS or Win
 dist: trusty
 jdk: openjdk8
 
+cache:
+  directories:
+  - $HOME/cache
+  - $HOME/.cache/pip
+
 matrix:
   include:
     - name: "Python+Java on Linux"

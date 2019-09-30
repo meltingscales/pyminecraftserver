@@ -27,7 +27,7 @@ matrix:
 #      env: PATH=/c/Python37:/c/Python37/Scripts:$PATH
 
 install:
-  - pip3 install pipenv
+  - sudo pip3 install pipenv
   - pipenv install
 
 # 'python' points to Python 2.7 on macOS but points to Python 3.7 on Linux and Windows

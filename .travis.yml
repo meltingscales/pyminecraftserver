@@ -5,12 +5,10 @@ matrix:
     - name: "Python 3.7.1 on Xenial Linux"
       python: 3.7           # this works for Linux but is ignored on macOS or Windows
       before_install:
-        - sudo add-apt-repository -y ppa:webupd8team/java
-        - sudo apt-get update
-        - sudo apt-get install oracle-java8-set-default
+        - sudo apt-get install -y openjdk-8-jre-headless
 
         - sudo update-java-alternatives --list || true
-        - sudo update-java-alternatives --set oracle-java8
+        - sudo update-java-alternatives --set openjdk-8-jre
         - java -version
 
 #    - name: "Python 3.7.4 on macOS"

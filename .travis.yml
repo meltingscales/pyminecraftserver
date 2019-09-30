@@ -8,7 +8,7 @@ matrix:
         - sudo apt-get install -y openjdk-8-jre-headless
 
         - sudo update-java-alternatives --list || true
-        - sudo update-java-alternatives --set openjdk-8-jre
+        - sudo update-java-alternatives --set java-1.8.0-openjdk-amd64
         - java -version
 
 #    - name: "Python 3.7.4 on macOS"

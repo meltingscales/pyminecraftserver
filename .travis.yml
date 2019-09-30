@@ -1,12 +1,13 @@
 language: java            # this works for Linux but is an error on macOS or Windows
 
-dist: bionic
-jdk: oraclejdk9
+dist: xenial
+jdk: oraclejdk8
 
 matrix:
   include:
     - name: "Python+Java on Linux"
       before_install:
+        - jdk_switcher use oraclejdk8
         - java -version
 
         - sudo apt update

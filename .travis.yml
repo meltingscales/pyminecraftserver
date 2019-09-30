@@ -6,10 +6,10 @@ cache:
 matrix:
   include:
     - name: "Python + Java on Linux"
-      language: java            # this works for Linux but is an error on macOS or Windows
-      jdk: openjdk8
       os: linux
       dist: trusty
+      language: java            # this works for Linux but is an error on macOS or Windows
+      jdk: openjdk8
       before_install:
         - sudo apt update
         - curl -s https://bootstrap.pypa.io/get-pip.py | sudo python3
@@ -22,10 +22,13 @@ matrix:
 
     - name: "Python + Java on Windows"
       os: windows           # Windows 10.0.17134 N/A Build 17134
+      language: python
+      python: 3.7
       before_install:
-        - choco install python3
-        - python3 -m pip install --upgrade pip
-        - pip3 install pipenv
+        - dir
+#        - choco install python3
+#        - python3 -m pip install --upgrade pip
+#        - pip3 install pipenv
       env: PATH=/c/Python37:/c/Python37/Scripts:$PATH
 
 install:

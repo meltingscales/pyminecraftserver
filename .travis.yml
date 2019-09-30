@@ -11,7 +11,7 @@ matrix:
         - java -version
 
         - sudo apt update
-        - curl -s https://bootstrap.pypa.io/get-pip.py | python3
+        - curl -s https://bootstrap.pypa.io/get-pip.py | sudo python3
 
 #    - name: "Python 3.7.4 on macOS"
 #      os: osx

@@ -73,6 +73,8 @@ def ensure_java_version(java_exe='java', java_range=(7, 8)):
 
     java_version: str = java_version.decode('utf-8')
 
+    print(java_version)
+
     version_number = java_version.splitlines()[0].split()[-1].strip('"')
     major, minor, _ = version_number.split('.')
 

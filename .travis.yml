@@ -5,7 +5,7 @@ matrix:
     - name: "Python 3.7.1 on Xenial Linux"
       python: 3.7           # this works for Linux but is ignored on macOS or Windows
       before_install:
-        - sudo apt-get install -y openjdk-8-jre-headless
+        - sudo apt-get install -y openjdk-8-jre
 
         - sudo update-java-alternatives --list || true
         - sudo update-java-alternatives --set java-1.8.0-openjdk-amd64

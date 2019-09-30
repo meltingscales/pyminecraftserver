@@ -69,7 +69,7 @@ def ensure_java_exists(java_exe='java'):
         raise Exception("Could not find `{}` executable on the path.".format(java_exe))
 
 
-def ensure_java_version(java_exe='java', java_range=(7, 9)):
+def ensure_java_version(java_exe='java', java_major_range=(7, 9)):
     java_version: bytes = subprocess.check_output([java_exe, '-version'], stderr=subprocess.STDOUT)
 
     print(java_version)
@@ -85,8 +85,8 @@ def ensure_java_version(java_exe='java', java_range=(7, 9)):
         major, minor, patch = version_number
 
     # If java version too big or small,
-    if int(major) > java_range[1] or int(major) < java_range[0]:
-        raise Exception("Java version {} outside of {}.".format(version_string, java_range))
+    if int(major) > java_major_range[1] or int(major) < java_major_range[0]:
+        raise Exception("Java version {} outside of {}.".format(version_string, java_major_range))
 
 
 def get_available_virtual_memory_in_mb() -> int:

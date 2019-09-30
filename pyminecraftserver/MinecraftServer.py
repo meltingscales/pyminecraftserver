@@ -2,6 +2,7 @@ import json
 import glob
 import os
 import shutil
+import subprocess
 import tempfile
 import time
 import uuid
@@ -65,6 +66,19 @@ def spawn_graphical_terminal(command: str):
 def ensure_java_exists(java_exe='java'):
     if not is_tool(java_exe):
         raise Exception("Could not find `{}` executable on the path.".format(java_exe))
+
+
+def ensure_java_version(java_exe='java', java_range=(7, 8)):
+    java_version: bytes = subprocess.check_output([java_exe, '-version'], stderr=subprocess.STDOUT)
+
+    java_version: str = java_version.decode('utf-8')
+
+    version_number = java_version.splitlines()[0].split()[-1].strip('"')
+    major, minor, _ = version_number.split('.')
+
+    # If java version too big or small,
+    if int(minor) > java_range[1] or int(minor) < java_range[0]:
+        raise Exception("Java version {} outside of {}.".format(java_version, java_range))
 
 
 def get_available_virtual_memory_in_mb() -> int:
@@ -145,6 +159,8 @@ class MinecraftServer:
     def __init__(self, name: str, server_path: str):
 
         ensure_java_exists()
+
+        ensure_java_version()
 
         self.name = name
 

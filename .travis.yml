@@ -35,3 +35,4 @@ install:
 script:
   - java -version
   - pipenv run python3 simple_json_server_setup_demo.py
+  - pipenv run python3 simple_server_setup_demo.py

@@ -83,7 +83,7 @@ def ensure_java_version(java_exe='java', java_range=(7, 8)):
 
     # If java version too big or small,
     if int(minor) > java_range[1] or int(minor) < java_range[0]:
-        raise Exception("Java version {} outside of {}.".format(java_version, java_range))
+        raise Exception("Java version {} outside of {}.".format(version_string, java_range))
 
 
 def get_available_virtual_memory_in_mb() -> int:

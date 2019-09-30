@@ -1,6 +1,7 @@
 import json
 import glob
 import os
+import re
 import shutil
 import subprocess
 import tempfile
@@ -71,12 +72,14 @@ def ensure_java_exists(java_exe='java'):
 def ensure_java_version(java_exe='java', java_range=(7, 8)):
     java_version: bytes = subprocess.check_output([java_exe, '-version'], stderr=subprocess.STDOUT)
 
-    java_version: str = java_version.decode('utf-8')
-
     print(java_version)
 
-    version_number = java_version.splitlines()[0].split()[-1].strip('"')
-    major, minor, _ = version_number.split('.')
+    version_string: str = java_version.decode('utf-8').splitlines()[0]
+
+    print(version_string)
+
+    version_number = re.findall(r'(\d+)\.(\d+)\.(\d+)', version_string)[0]
+    major, minor, patch = version_number
 
     # If java version too big or small,
     if int(minor) > java_range[1] or int(minor) < java_range[0]:

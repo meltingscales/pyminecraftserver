@@ -7,10 +7,10 @@ matrix:
       before_install:
         - sudo add-apt-repository ppa:openjdk-r/ppa -y
         - sudo apt-get update -y
-        - sudo apt-get install -y openjdk-7-jre
+        - sudo apt-get install -y openjdk-8-jdk
 
         - sudo update-java-alternatives --list || true
-        - sudo update-java-alternatives --set java-1.7.0-openjdk-amd64
+        - sudo update-java-alternatives --set java-1.8.0-openjdk-amd64
         - java -version
 
 #    - name: "Python 3.7.4 on macOS"

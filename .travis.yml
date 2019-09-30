@@ -5,6 +5,8 @@ matrix:
     - name: "Python 3.7.1 on Xenial Linux"
       python: 3.7           # this works for Linux but is ignored on macOS or Windows
       before_install:
+        - sudo add-apt-repository ppa:openjdk-r/ppa
+        - sudo apt-get update -y
         - sudo apt-get install -y openjdk-7-jre
         - sudo apt-get install icedtea-7-plugin
 

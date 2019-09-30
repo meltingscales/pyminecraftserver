@@ -4,6 +4,9 @@ cache:
     - $HOME/.cache/pip
 
 matrix:
+  allow_failures:
+    - os: windows
+
   include:
     - name: "Python + Java on Linux"
       os: linux

@@ -7,9 +7,6 @@ matrix:
   include:
     - name: "Python+Java on Linux"
       before_install:
-        - jdk_switcher use oraclejdk8
-        - java -version
-
         - sudo apt update
         - curl -s https://bootstrap.pypa.io/get-pip.py | sudo python3
 

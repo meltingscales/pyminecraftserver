@@ -11,9 +11,7 @@ matrix:
         - java -version
 
         - sudo apt update
-        - sudo apt install -y software-properties-common
-        - sudo add-apt-repository -y ppa:deadsnakes/ppa
-        - sudo apt install -y python3-dev python3-pip
+        - sudo apt install -y python3-pip
 
 #    - name: "Python 3.7.4 on macOS"
 #      os: osx

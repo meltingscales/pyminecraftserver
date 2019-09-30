@@ -12,7 +12,7 @@ matrix:
       os: linux
       dist: trusty
 
-      language: java            # this works for Linux but is an error on macOS or Windows
+      language: java
       jdk: openjdk8
 
       before_install:
@@ -34,8 +34,8 @@ matrix:
       before_install:
         - dir
         - choco install jdk8
-        - python3 -m pip install --upgrade pip
-        - pip3 install pipenv
+        - python -m pip install --upgrade pip
+        - pip install pipenv
       env: PATH=/c/Python37:/c/Python37/Scripts:$PATH
 
 install:
@@ -45,5 +45,5 @@ install:
 # 'python3' is a 'command not found' error on Windows but 'py' works on Windows only
 script:
   - java -version
-  - pipenv run python3 simple_json_server_setup_demo.py
-  - pipenv run python3 simple_server_setup_demo.py
+  - pipenv run python simple_json_server_setup_demo.py
+  - pipenv run python simple_server_setup_demo.py

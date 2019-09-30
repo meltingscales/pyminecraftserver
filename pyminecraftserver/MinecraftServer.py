@@ -69,7 +69,7 @@ def ensure_java_exists(java_exe='java'):
         raise Exception("Could not find `{}` executable on the path.".format(java_exe))
 
 
-def ensure_java_version(java_exe='java', java_range=(7, 8)):
+def ensure_java_version(java_exe='java', java_range=(7, 9)):
     java_version: bytes = subprocess.check_output([java_exe, '-version'], stderr=subprocess.STDOUT)
 
     print(java_version)

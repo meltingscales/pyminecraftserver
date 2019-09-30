@@ -28,17 +28,15 @@ matrix:
     - name: "Python + Java on Windows"
       os: windows # Windows 10.0.17134 N/A Build 17134
 
-      language: shell
-      python: 3.7
+      language: sh
+      python: "3.7"
 
       before_install:
-        - dir
-        - choco install jdk8
-        - choco install python --version=3.7.2
-        - python3 -v
-        - python3 -m pip install --upgrade pip
+        - choco install python3
+        - export PATH="/c/Python37:/c/Python37/Scripts:$PATH"
+        - python -m pip install --upgrade pip wheel
         - pip install pipenv
-      env: PATH=/c/Python37:/c/Python37/Scripts:$PATH
+        - choco install jdk8
 
 install:
   - pipenv install

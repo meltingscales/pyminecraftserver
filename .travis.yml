@@ -15,8 +15,6 @@ matrix:
         - sudo add-apt-repository -y ppa:deadsnakes/ppa
         - sudo apt install -y python3.7
 
-
-
 #    - name: "Python 3.7.4 on macOS"
 #      os: osx
 #      osx_image: xcode11    # Python 3.7.4 running on macOS 10.14.4

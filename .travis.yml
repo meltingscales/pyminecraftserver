@@ -5,7 +5,7 @@ jdk: oraclejdk8
 
 matrix:
   include:
-    - name: "Python 3.7.1 on Xenial Linux"
+    - name: "Python 3.7"
       python: 3.7           # this works for Linux but is ignored on macOS or Windows
       before_install:
         - java -version

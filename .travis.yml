@@ -8,7 +8,7 @@ matrix:
         - sudo add-apt-repository ppa:openjdk-r/ppa -y
         - sudo apt-get update -y
         - sudo apt-get install -y openjdk-7-jre
-        - sudo apt-get install icedtea-7-plugin
+        - sudo apt-get install -y icedtea-7-plugin
 
         - sudo update-java-alternatives --list || true
         - sudo update-java-alternatives --set java-1.7.0-openjdk-amd64

@@ -15,8 +15,8 @@ from pyminecraftserver import DownloadLib
 from typing import Union
 
 
-def is_travis() -> bool:
-    return 'TRAVIS' in os.environ
+def is_ci() -> bool:
+    return 'CI' in os.environ
 
 
 def folders_in_path(path: str) -> int:
@@ -56,7 +56,7 @@ def spawn_graphical_terminal(command: str):
 
     ensure_java_exists()
 
-    if is_travis():
+    if is_ci():
         print("Not starting graphical terminal, this is CI.")
         return
 

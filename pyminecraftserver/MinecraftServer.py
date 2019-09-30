@@ -79,10 +79,13 @@ def ensure_java_version(java_exe='java', java_range=(7, 9)):
     print(version_string)
 
     version_number = re.findall(r'(\d+)\.(\d+)\.(\d+)', version_string)[0]
-    major, minor, patch = version_number
+    minor, major, patch = version_number
+
+    if int(minor) > 1:  # We're not 1.8.0, we're 8.0.0 for some reason, looking at you openJDK 9
+        major, minor, patch = version_number
 
     # If java version too big or small,
-    if int(minor) > java_range[1] or int(minor) < java_range[0]:
+    if int(major) > java_range[1] or int(major) < java_range[0]:
         raise Exception("Java version {} outside of {}.".format(version_string, java_range))
 
 

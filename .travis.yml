@@ -1,12 +1,11 @@
 language: java            # this works for Linux but is an error on macOS or Windows
 
-dist: trusty
+dist: bionic
 jdk: oraclejdk8
 
 matrix:
   include:
-    - name: "Python 3.7 on Linux"
-      python: 3.7           # this works for Linux but is ignored on macOS or Windows
+    - name: "Python+Java on Linux"
       before_install:
         - java -version
 

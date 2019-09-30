@@ -15,6 +15,10 @@ from pyminecraftserver import DownloadLib
 from typing import Union
 
 
+def is_travis() -> bool:
+    return 'TRAVIS' in os.environ
+
+
 def folders_in_path(path: str) -> int:
     i = 0
 
@@ -51,6 +55,10 @@ def spawn_graphical_terminal(command: str):
     """
 
     ensure_java_exists()
+
+    if is_travis():
+        print("Not starting graphical terminal, this is CI.")
+        return
 
     if is_tool('gnome-terminal') and is_tool('bash'):
         cmd = '''gnome-terminal -- bash -c "{}; sleep 99999"  '''.format(command)

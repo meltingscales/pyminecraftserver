@@ -45,5 +45,7 @@ install:
 # 'python3' is a 'command not found' error on Windows but 'py' works on Windows only
 script:
   - java -version
+  - python -V
+  - pip -V
   - pipenv run python simple_json_server_setup_demo.py
   - pipenv run python simple_server_setup_demo.py

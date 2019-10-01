@@ -6,7 +6,9 @@ cache:
 
 matrix:
   allow_failures:
-    - os: windows
+    - os:
+      - windows
+      - osx
 
   include:
 

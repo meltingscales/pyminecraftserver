@@ -1,3 +1,5 @@
+[![forthebadge](https://forthebadge.com/images/badges/made-with-crayons.svg)](https://forthebadge.com)
+
 [![Build Status](https://travis-ci.org/HenryFBP/pyminecraftserver.svg?branch=master)](https://travis-ci.org/HenryFBP/pyminecraftserver)
 
 [![Coverage Status](https://coveralls.io/repos/github/HenryFBP/pyminecraftserver/badge.svg)](https://coveralls.io/github/HenryFBP/pyminecraftserver)

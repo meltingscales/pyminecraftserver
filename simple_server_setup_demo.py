@@ -23,9 +23,11 @@ if __name__ == '__main__':
         minecraft_server.install_modpack_zip_from_url(
             'https://www.curseforge.com/minecraft/modpacks/volcano-block/download/2786736/file')
 
-    # Install mods from a URL.
-    minecraft_server.install_mod_from_url(  # dynmap
-        'https://www.curseforge.com/minecraft/mc-mods/dynmapforge/download/2722448/file')
+    # Install mods from URLs.
+    minecraft_server.install_mods_from_urls([
+        'https://www.curseforge.com/minecraft/mc-mods/dynmapforge/download/2722448/file',
+        'https://www.curseforge.com/minecraft/mc-mods/morpheus/download/2664449/file',
+    ])
 
     print(minecraft_server)
 

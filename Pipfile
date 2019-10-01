@@ -11,3 +11,5 @@ cfscrape = '*'
 joblib = '*'
 psutil = '*'
 jproperties = '*'
+
+[dev-packages]

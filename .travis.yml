@@ -42,7 +42,7 @@ matrix:
         - export PATH="/c/Program Files/Java/jdk1.8.0_221/jre/bin:$PATH"
 
 install:
-  - pipenv install
+  - pipenv install --dev
 
 # 'python' points to Python 2.7 on macOS but points to Python 3.7 on Linux and Windows
 # 'python3' is a 'command not found' error on Windows but 'py' works on Windows only
@@ -52,3 +52,4 @@ script:
   - pip -V
   - pipenv run python simple_json_server_setup_demo.py
   - pipenv run python simple_server_setup_demo.py
+  - pipenv run python -m unittest discover

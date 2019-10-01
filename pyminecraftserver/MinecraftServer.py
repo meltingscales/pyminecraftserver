@@ -6,12 +6,40 @@ import shutil
 import subprocess
 import time
 import zipfile
-from typing import Union
+from typing import Union, List, Optional
 
 import psutil
 from jproperties import Properties
 
 from pyminecraftserver import DownloadLib
+
+modpack_download_format_str = "https://www.curseforge.com/minecraft/mc-mods/{modname}/download/{fileid}/file"
+curseforge_modname_url_pattern = re.compile(r'/mc-mods/(.+?)/')
+curseforge_fileid_url_pattern = re.compile(r'/.+?/.+?/(\d+)')
+
+
+def get_modname_from_curseURL(curseurl: str) -> Optional[str]:
+    """
+    Given a CurseForge URL, return a mod name from it.
+    """
+    match = re.search(curseforge_modname_url_pattern, curseurl)
+
+    if not match:
+        return None
+
+    return match.group(1)
+
+
+def get_fileid_from_curseurl(curseurl: str) -> Optional[str]:
+    """
+    Given a CurseForge URL, return a file ID from it.
+    """
+    match = re.search(curseforge_fileid_url_pattern, curseurl)
+
+    if not match:
+        return None
+
+    return match.group(1)
 
 
 def is_ci() -> bool:
@@ -432,6 +460,10 @@ class MinecraftServer:
         for mod_name, url in jsonobj['mods'].items():
             self.install_mod_from_url(url)
 
+    def install_mods_from_urls(self, urls: List[str]):
+        for modurl in urls:
+            self.install_mod_from_url(modurl)
+
     def install_mod_from_url(self, url: str):
 
         mod_response = DownloadLib.get_results_from_url(url)
@@ -446,3 +478,15 @@ class MinecraftServer:
             print("[ OK ]", end='')
 
         print(" '{}' at '{}'".format(mod_filename, mod_filepath))
+
+
+
+def ensure_downloadable_curseforge_url(url: str) -> str:
+    """
+    Given a curseforge URL that contains a mod name and file ID,
+    return one that can be downloaded.
+
+    Returns "none" if the URL does not contain both a mod name and ID.
+    """
+    # TODO
+    pass

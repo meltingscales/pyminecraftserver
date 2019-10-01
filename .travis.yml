@@ -26,7 +26,7 @@ matrix:
 
     - name: "Python + Java on OSX"
       os: osx
-      osx_image: xcode11
+      osx_image: xcode9.3
 
       language: java
       jdk: openjdk8

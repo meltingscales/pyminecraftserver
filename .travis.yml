@@ -29,7 +29,10 @@ matrix:
       osx_image: xcode9
 
       language: java
-      jdk: openjdk8
+      jdk: oraclejdk8
+
+      before_install:
+        - echo "im OSX :)"
 
     - name: "Python + Java on Windows"
       os: windows # Windows 10.0.17134 N/A Build 17134

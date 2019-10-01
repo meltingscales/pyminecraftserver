@@ -20,6 +20,7 @@ matrix:
         - sudo apt update
         - curl -s https://bootstrap.pypa.io/get-pip.py | sudo python3
         - sudo pip3 install pipenv
+        - sudo pip3 install coveralls
 
 #    - name: "Python 3.7.4 on macOS"
 #      os: osx
@@ -37,6 +38,7 @@ matrix:
         - export PATH="/c/Python37:/c/Python37/Scripts:$PATH"
         - python -m pip install --upgrade pip wheel
         - pip install pipenv
+        - pip install coveralls
 
         - choco install jdk8
         - export PATH="/c/Program Files/Java/jdk1.8.0_221/jre/bin:$PATH"
@@ -50,8 +52,8 @@ script:
   - java -version
   - python -V
   - pip -V
-  - pipenv run python simple_json_server_setup_demo.py
-  - pipenv run python simple_server_setup_demo.py
+  - pipenv run coverage run simple_json_server_setup_demo.py
+  - pipenv run coverage run simple_server_setup_demo.py
   - pipenv run coverage run -m unittest discover
 
 after_success:

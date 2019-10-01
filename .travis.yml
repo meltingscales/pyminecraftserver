@@ -3,12 +3,13 @@ cache:
     - $HOME/cache
     - $HOME/.cache/pip
     - $HOME/AppData/Local/Temp/chocolatey
+    - $HOME/Library/Caches/Homebrew
 
 matrix:
   allow_failures:
     - os:
-      - windows
-      - osx
+        - windows
+        - osx
 
   include:
 
@@ -30,6 +31,9 @@ matrix:
 
       language: java
       jdk: oraclejdk8
+
+      before_cache:
+        - brew cleanup
 
       before_install:
         - echo "im OSX :)"

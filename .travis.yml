@@ -53,3 +53,6 @@ script:
   - pipenv run python simple_json_server_setup_demo.py
   - pipenv run python simple_server_setup_demo.py
   - pipenv run coverage run -m unittest discover
+
+after_success:
+  - coveralls

@@ -13,3 +13,4 @@ psutil = '*'
 jproperties = '*'
 
 [dev-packages]
+coverage = '*'

@@ -1,18 +1,17 @@
-import json
 import glob
+import json
 import os
 import re
 import shutil
 import subprocess
-import tempfile
 import time
-import uuid
 import zipfile
+from typing import Union
+
 import psutil
 from jproperties import Properties
 
 from pyminecraftserver import DownloadLib
-from typing import Union
 
 
 def is_ci() -> bool:
@@ -119,6 +118,9 @@ class MinecraftServer:
 
     # Prefix mods with this to make it obvious they're downloaded by the tool
     _mod_prefix = '_pyminecraft_'
+
+    def get_config_folder(self) -> str:
+        return os.path.join(self.server_path, 'config')
 
     def get_mods_folder_path(self) -> str:
         return os.path.join(self.server_path, 'mods')

@@ -12,6 +12,8 @@ import sys
 from requests import Response
 
 cache_dir = os.path.abspath(os.path.expanduser("~/.cache/pyminecraftserver/"))
+assert '~' not in cache_dir
+
 location = os.path.join(os.path.abspath(os.path.dirname(__file__)), cache_dir)
 file_memory_cache = Memory(location)
 

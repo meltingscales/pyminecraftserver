@@ -9,6 +9,7 @@ matrix:
     - os: windows
 
   include:
+
     - name: "Python + Java on Linux"
       os: linux
       dist: trusty
@@ -21,10 +22,12 @@ matrix:
         - curl -s https://bootstrap.pypa.io/get-pip.py | sudo python3
         - sudo pip3 install pipenv
 
-#    - name: "Python 3.7.4 on macOS"
-#      os: osx
-#      osx_image: xcode11    # Python 3.7.4 running on macOS 10.14.4
-#      language: shell       # 'language: python' is an error on Travis CI macOS
+    - name: "Python + Java on OSX"
+      os: osx
+      osx_image: xcode11
+
+      language: java
+      jdk: openjdk8
 
     - name: "Python + Java on Windows"
       os: windows # Windows 10.0.17134 N/A Build 17134

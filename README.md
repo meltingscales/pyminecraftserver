@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/HenryFBP/pyminecraftserver.svg?branch=master)](https://travis-ci.org/HenryFBP/pyminecraftserver)
 
+[![Coverage Status](https://coveralls.io/repos/github/HenryFBP/pyminecraftserver/badge.svg)](https://coveralls.io/github/HenryFBP/pyminecraftserver)
+
 # pyminecraftserver
 
 This is a Python module to automate the process of setting up, configuring, and installing mods to minecraft servers.

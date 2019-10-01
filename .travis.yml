@@ -2,7 +2,6 @@ cache:
   directories:
     - $HOME/cache
     - $HOME/.cache/pip
-    - ~\AppData\Local\Temp\chocolatey
 
 matrix:
   allow_failures:

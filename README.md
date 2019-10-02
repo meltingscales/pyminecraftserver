@@ -12,9 +12,9 @@ This is a Python module to automate the process of setting up, configuring, and 
 
 This currently does not work on Windows AFAIK. It has to do with the way that `shutil` copies files and file path limits.
 
-I have not tested on OSX but it should work.
+This works on OSX.
 
-This works on Ubuntu-like Linux distros AFAIK.
+This works on Ubuntu Linux, and POP_OS!.
 
 ## Setup
 

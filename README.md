@@ -24,7 +24,15 @@ Install `pipenv` by running `pip install pipenv`.
 
 Then, run `pipenv install` in this directory to create a new virtualenv with all of the deps specified in `./Pipfile`.
 
+`pipenv install --dev` to install development packages as well like `coverage`.
+
 You can also run `pipenv install --system` to install the dependencies globally.
+
+## Running tests
+
+Run `pipenv run python -m unittest discover` to run the test cases.
+
+Alternatively, use `pipenv run coverage run -m unittest discover` to run with coverage.
 
 ## Demos
 

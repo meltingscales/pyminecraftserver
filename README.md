@@ -46,6 +46,6 @@ I highly recommend `interactive-server-starter.py`.
 
 Because Windows&trade;, you may need to enable paths longer than 260 characters.
 
-Yes, I know. That's short as hell.
+Yes, I know. That's very short.
 
 See <https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file?redirectedfrom=MSDN#enable-long-paths-in-windows-10-version-1607-and-later> for advice on doing this.

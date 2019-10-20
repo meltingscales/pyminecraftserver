@@ -8,8 +8,14 @@ from pyminecraftserver.MinecraftServer import MinecraftServer
 class TestSimpleSetupFromJSON(unittest.TestCase):
 
     def setUp(self) -> None:
-        shutil.rmtree('./tmp')
-        os.mkdir('./tmp')
+        if os.path.exists('./tmp'):
+            shutil.rmtree('./tmp')
+        else:
+            os.mkdir('./tmp')
+
+    def tearDown(self) -> None:
+        if os.path.exists('./tmp'):
+            shutil.rmtree('./tmp')
 
     def testGlacial(self):
 

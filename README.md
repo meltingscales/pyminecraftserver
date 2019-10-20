@@ -10,11 +10,7 @@ This is a Python module to automate the process of setting up, configuring, and 
 
 ## Issues
 
-This currently does not work on Windows AFAIK. It has to do with the way that `shutil` copies files and file path limits.
-
-This works on OSX.
-
-This works on Ubuntu Linux, and POP_OS!.
+This works on Windows 10, OSX, and Ubuntu Linux AFAIK. See build status (travis badge at top)/`travis.yml` for setup and logs.
 
 ## Setup
 

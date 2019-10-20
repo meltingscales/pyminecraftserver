@@ -46,7 +46,7 @@ matrix:
       python: "3.7"
 
       before_install:
-        - choco install python3 --params "/InstallDir:C:\Python3"
+        - choco install python3 --params "/InstallDir:C:\Python3" # This was added because Choco's `python3` may be 3.7, 3.8, who knows?
         - export PATH="/c/Python3:/c/Python3/Scripts:$PATH"
         - dir C:/Python3
         - python -m pip install --upgrade pip wheel

@@ -4,24 +4,14 @@ import unittest
 
 from pyminecraftserver.MinecraftServer import MinecraftServer
 from test import config_dir
+from test.sharedTest import TestCaseWithEphemeralTempDir
 
 
-class TestSimpleSetupFromJSON(unittest.TestCase):
-
-    def setUp(self) -> None:
-        if os.path.exists('./tmp'):
-            shutil.rmtree('./tmp')
-        else:
-            os.mkdir('./tmp')
-
-    def tearDown(self) -> None:
-        if os.path.exists('./tmp'):
-            shutil.rmtree('./tmp')
+class TestSimpleSetupFromJSON(TestCaseWithEphemeralTempDir):
 
     def testGlacial(self):
-
         minecraft_server = MinecraftServer.from_json(
-            server_path=os.path.join('tmp', 'testcase-glacial-awakening'),
+            server_path=os.path.join(self.temp_dir, 'testcase-glacial-awakening'),
             json_path=os.path.join(config_dir, 'glacial-awakening.json')
         )
 

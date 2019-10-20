@@ -4,6 +4,7 @@ This demo shows you how to use Python code to set up minecraft servers.
 
 import os
 
+from shared import *
 from pyminecraftserver.MinecraftServer import MinecraftServer
 
 if __name__ == '__main__':
@@ -13,7 +14,7 @@ if __name__ == '__main__':
     # Don't want to delete people's stuff -- hardcoded path.
     minecraft_server = MinecraftServer(
         name='Volcano Block 1.0.28',
-        server_path=os.path.join(file_dir, 'servers', 'example_server_setup', 'from_code-Volcano-Block'))
+        server_path=os.path.join(base_dir, 'servers', 'example_server_setup', 'from_code-Volcano-Block'))
 
     print(minecraft_server)
 

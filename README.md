@@ -28,15 +28,20 @@ Then, run `pipenv install` in this directory to create a new virtualenv with all
 
 You can also run `pipenv install --system` to install the dependencies globally.
 
+Then, run `pipenv shell` to run Python with the virtualenv's packages.
+
 ## Running tests
 
-Run `pipenv run python -m unittest discover` to run the test cases.
+Run `python -m unittest discover` to run the test cases.
 
-Alternatively, use `pipenv run coverage run -m unittest discover` to run with coverage.
+Alternatively, use `coverage run -m unittest discover` to run with coverage.
 
 ## Demos
 
-Run `simple_server_setup_demo.py`, `simple_json_server_setup_demo.py` or `interactive-server-starter.py` for a taste of how this library can work.
+`cd` into `demo/`.
+
+Run `simple_server_setup_demo.py`, `simple_json_server_setup_demo.py` or `interactive-server-starter.py` for a taste of 
+how this library can work.
 
 I highly recommend `interactive-server-starter.py`.
 

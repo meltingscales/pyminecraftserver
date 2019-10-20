@@ -2,13 +2,8 @@
 This script is an interactive script that goes over all of your JSON server config files and lets you run them.
 """
 
-import os
-import pathlib
-
+from shared import *
 from pyminecraftserver.MinecraftServer import MinecraftServer
-
-current_dir = os.path.dirname(__file__)
-config_filepath = os.path.join(current_dir, 'modpack-config')
 
 if __name__ == '__main__':
 
@@ -32,7 +27,7 @@ if __name__ == '__main__':
     json_name = os.path.splitext(os.path.basename(json_filepath))[0]
 
     mcserver = MinecraftServer.from_json(
-        server_path=os.path.join(current_dir, 'servers', 'interactive-server-starter', json_name),
+        server_path=os.path.join(base_dir, 'servers', 'interactive-server-starter', json_name),
         json_path=json_filepath
     )
 

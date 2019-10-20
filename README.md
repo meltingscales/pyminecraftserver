@@ -24,7 +24,7 @@ Then, run `pipenv install` in this directory to create a new virtualenv with all
 
 You can also run `pipenv install --system` to install the dependencies globally.
 
-Then, run `pipenv shell` to run Python with the virtualenv's packages.
+Then, run `pipenv shell` to open a shell with the Python dependencies installed.
 
 ## Running tests
 

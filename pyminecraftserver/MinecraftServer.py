@@ -326,6 +326,14 @@ class MinecraftServer:
     def is_forge_installer_downloaded(self):
         return self.get_forge_installer_path() is not None
 
+    def is_running(self) -> bool:
+        """ Is this server running?"""
+        raise NotImplementedError
+
+    def stop(self):
+        """Stop the server."""
+        raise NotImplementedError
+
     def accept_eula(self):
 
         # read content

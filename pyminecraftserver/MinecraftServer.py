@@ -345,9 +345,9 @@ class MinecraftServer:
         print("EULA accepted.")
 
     def get_forge_server_command(self) -> str:
-        """Return a command that will run the Forge server."""
-        return 'cd "{path}"; java {flags} {memflags} -jar "{forge_jar}"'.format(
-            path=self.server_path,
+        """Return a command that will run the Forge server.
+        This will not set your directory to the correct location."""
+        return 'java {flags} {memflags} -jar "{forge_jar}"'.format(
             flags=self.JAVA_NONMEM_FLAGS,
             memflags=self.get_memory_flags(),
             forge_jar=self.get_forge_server_path(),
@@ -359,7 +359,15 @@ class MinecraftServer:
 
         print(command)
 
+        old_dir=os.curdir
+
+        # Change directory and run server.
+        os.chdir(self.server_path)
         os.system(command)
+
+        os.chdir(old_dir)
+
+
 
     def run_forge_server_graphical(self):
         """Run the forge server in a new terminal window in a graphical environment."""
@@ -369,13 +377,20 @@ class MinecraftServer:
 
         forge_location = self.get_forge_installer_path()
 
-        command = 'cd {path} ; java -jar {forgejar} --installServer'.format(
-            path=self.server_path,
-            forgejar=forge_location)
+        # Save our old path.
+        old_path = os.curdir
+
+        # Change directory to the server's path.
+        os.chdir(self.server_path)
+
+        command = 'java -jar {forgejar} --installServer'.format(forgejar=forge_location)
 
         print(command)
-
+        # Install forge.
         os.system(command)
+
+        # Change our directory back to old path.
+        os.chdir(old_path)
 
         # Sanity check, forge server should be installed.
         assert (self.is_forge_server_installed())

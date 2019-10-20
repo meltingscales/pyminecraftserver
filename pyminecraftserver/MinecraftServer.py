@@ -233,6 +233,9 @@ class MinecraftServer:
         Given a JSON file and a server folder path, detect an MC server and attempt to set it up from that file.
         """
 
+        server_path = os.path.abspath(server_path)
+        json_path = os.path.abspath(json_path)
+
         with open(json_path, 'r') as f:
             json_data = json.load(f)
 
@@ -366,9 +369,16 @@ class MinecraftServer:
 
         forge_location = self.get_forge_installer_path()
 
-        os.system('cd {path}; java -jar {forgejar} --installServer'.format(
+        command = 'cd {path} ; java -jar {forgejar} --installServer'.format(
             path=self.server_path,
-            forgejar=forge_location))
+            forgejar=forge_location)
+
+        print(command)
+
+        os.system(command)
+
+        # Sanity check, forge server should be installed.
+        assert (self.is_forge_server_installed())
 
         # If the EULA does not exist, we must run the forge server once to accept it.
         if not os.path.exists(self.get_eula_path()):
@@ -478,7 +488,6 @@ class MinecraftServer:
             print("[ OK ]", end='')
 
         print(" '{}' at '{}'".format(mod_filename, mod_filepath))
-
 
 
 def ensure_downloadable_curseforge_url(url: str) -> str:

@@ -28,7 +28,7 @@ class TestSimpleSetupFromJSON(TestCaseWithEphemeralTempDir):
 
         # Stop it and make sure it is stopped.
         print("Trying to stop it...")
-        minecraft_server.stop_politely(timeout=5)
+        minecraft_server.stop_politely(timeout=99999)
         self.assertFalse(minecraft_server.is_running())
         print("It is stopped.")
 

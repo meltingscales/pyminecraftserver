@@ -373,12 +373,12 @@ class MinecraftServer:
 
         for i in range(0, timeout, 1):
 
-            time.sleep(1)
-            print("sec={}, still running.".format(i))
-
             if not self.is_running():
                 print("It stopped running!")
                 return
+            else:
+                time.sleep(1)
+                print("sec={}, still running.".format(i))
 
         print("It is still running after {} seconds. Using SIGKILL.".format(timeout))
 

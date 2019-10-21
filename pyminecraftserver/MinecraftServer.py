@@ -360,9 +360,12 @@ class MinecraftServer:
     def is_forge_installer_downloaded(self):
         return self.get_forge_installer_path() is not None
 
-    def stop_politely(self, timeout=5):
-        """Stop the server by sending SIGTERM.
-        Wait a bit, then send SIGKILL."""
+    def stop_politely(self, timeout: int = 5):
+        """
+        Stop the server.
+        :param timeout: Timeout in seconds to wait before forcefully stopping the server.
+        :return:
+        """
         self._server_process.send_signal(signal.SIGTERM)
 
         time.sleep(timeout)
@@ -376,19 +379,9 @@ class MinecraftServer:
 
     def accept_eula(self):
 
-        # read content
-        with open(self.get_eula_path(), 'r') as f:
-            eula_content = f.readlines()
-
-        # replace false with true. This is illegal. Shh.
-        for i in range(0, len(eula_content)):
-            if 'false' in eula_content[i]:
-                eula_content[i] = eula_content[i].replace('false', 'true')
-
         # Write content
         with open(self.get_eula_path(), 'w') as f:
-            for line in eula_content:
-                f.write(line)
+            f.write('eula=true')
 
         print("EULA accepted.")
 
@@ -398,24 +391,20 @@ class MinecraftServer:
         return ['java'] + self.JAVA_NONMEM_FLAGS + self.get_memory_flags() + ['-jar'] + [self.get_forge_server_path()]
 
     def run_forge_server_headless(self):
-        """Runs the forge server in the current terminal. Non-interactive."""
+        """Runs the forge server in the background. Non-interactive."""
         command = (self.get_forge_server_command())
 
         print(command)
 
-        old_dir = os.curdir
+        ps = subprocess.Popen(command, cwd=self.server_path)
 
-        # Change directory and run server.
-        os.chdir(self.server_path)
-        os.system(command)
-
-        os.chdir(old_dir)
+        self.set_server_process(ps)
 
     def run_forge_server_graphical(self):
         """Run the forge server in a new terminal window in a graphical environment."""
         ps = spawn_graphical_terminal(self.get_forge_server_command(), working_dir=self.server_path)
 
-        self._server_process = ps
+        self.set_server_process(ps)
 
     def install_forge_server(self):
 
@@ -439,13 +428,9 @@ class MinecraftServer:
         # Sanity check, forge server should be installed.
         assert (self.is_forge_server_installed())
 
-        # If the EULA does not exist, we must run the forge server once to accept it.
+        # If the EULA does not exist, accept it.
         if not os.path.exists(self.get_eula_path()):
-            print("EULA does not exist. Running MC Forge headless once.")
-
-            self.run_forge_server_headless()
-
-        self.accept_eula()
+            self.accept_eula()
 
     def install_modpack_zip_from_url(self, url):
 

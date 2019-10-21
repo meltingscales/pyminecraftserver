@@ -3,9 +3,11 @@ import json
 import os
 import re
 import shutil
+import signal
 import subprocess
 import time
 import zipfile
+from distutils.spawn import find_executable
 from typing import Union, List, Optional
 
 import psutil
@@ -69,34 +71,32 @@ def files_in_path(path: str) -> int:
 # Stolen from https://stackoverflow.com/questions/11210104/check-if-a-program-exists-from-a-python-script
 def is_tool(name):
     """Check whether `name` is on PATH."""
-
-    from distutils.spawn import find_executable
-
     return find_executable(name) is not None
 
 
-def spawn_graphical_terminal(command: str):
-    """    Spawn a graphical terminal and run a command in it.
-
+def spawn_graphical_terminal(command: List[str], working_dir) -> subprocess.Popen:
+    """
+    Spawn a graphical terminal and run a command in it.
     This will search for various tools like 'cmd' and 'gnome-terminal' and try to use ones that exist.
     """
 
     ensure_java_exists()
 
     if is_ci():
-        print("Not starting graphical terminal, this is CI.")
-        return
+        raise Exception("Not starting graphical terminal, this is CI.")
 
     if is_tool('gnome-terminal') and is_tool('bash'):
-        cmd = '''gnome-terminal -- bash -c "{}; sleep 99999"  '''.format(command)
+        cmd = ['gnome-terminal', '--', 'bash', '-c', '"{}; sleep 99999'.format(command)]
 
-        os.system(cmd)
     elif is_tool('cmd'):
-        cmd = ''' cmd.exe /K {} '''.format(command)
+        cmd = ['start', 'cmd.exe', '/K'] + command
 
-        os.system(cmd)
     else:
         raise NotImplementedError("Not implemented for this system.")
+
+    print(cmd)
+    print(working_dir)
+    return subprocess.Popen(cmd, shell=True, cwd=working_dir)
 
 
 def ensure_java_exists(java_exe='java'):
@@ -139,10 +139,12 @@ def get_minecraft_server_memory_in_mb(cap=4000, reserve=500):
 
 
 class MinecraftServer:
-    JAVA_NONMEM_FLAGS = '-XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 ' \
-                        '-XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 ' \
-                        '-XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=35 -XX:+AlwaysPreTouch ' \
-                        '-XX:+ParallelRefProcEnabled -Dusing.aikars.flags=mcflags.emc.gs '
+    JAVA_NONMEM_FLAGS = [
+        '-XX:+UseG1GC', '-XX:+UnlockExperimentalVMOptions', '-XX:MaxGCPauseMillis=100', '-XX:+DisableExplicitGC',
+        '-XX:TargetSurvivorRatio=90', '-XX:G1NewSizePercent=50', '-XX:G1MaxNewSizePercent=80',
+        '-XX:G1MixedGCLiveThresholdPercent=35', '-XX:+AlwaysPreTouch', '-XX:+ParallelRefProcEnabled',
+        '-Dusing.aikars.flags=mcflags.emc.gs '
+    ]
 
     # Prefix mods with this to make it obvious they're downloaded by the tool
     _mod_prefix = '_pyminecraft_'
@@ -178,8 +180,10 @@ class MinecraftServer:
 
         return
 
-    def get_memory_flags(self) -> str:
-        return "-Xms{mb}M -Xmx{mb}M".format(mb=get_minecraft_server_memory_in_mb())
+    def get_memory_flags(self) -> List[str]:
+        return "-Xms{mb}M -Xmx{mb}M".format(
+            mb=get_minecraft_server_memory_in_mb()
+        ).split(' ')
 
     def __str__(self):
 
@@ -209,8 +213,13 @@ class MinecraftServer:
         ensure_java_version()
 
         self.name = name
+        '''The name of the server. This is not related to the path.'''
 
         self.server_path = os.path.abspath(server_path)
+        '''The path of the server.'''
+
+        self._server_process: subprocess.Popen = None
+        '''The handle for the server's java process.'''
 
         if not os.path.exists(self.server_path):
             os.makedirs(self.server_path)
@@ -226,6 +235,31 @@ class MinecraftServer:
         print("server.properties: {}={}".format(key, value))
 
         self.save_properties(prop)
+
+    def is_running(self) -> bool:
+        """ Is this server running?"""
+
+        if self._server_process is None:
+            return False
+
+        return self._server_process.poll() is None
+
+    def set_server_process(self, process: subprocess.Popen) -> subprocess.Popen:
+
+        # If process may be running,
+        if self._server_process is not None:
+
+            # If process is running,
+            if self._server_process.poll() is None:
+                raise Exception("Cannot set server's process as it appears to be running!"
+                                "Current process: {cp}"
+                                "New process: {np}".format(cp=self._server_process, np=process))
+
+        self._server_process = process
+        return self._server_process
+
+    def get_server_process(self) -> subprocess.Popen:
+        return self._server_process
 
     @classmethod
     def from_json(cls, server_path, json_path):
@@ -326,13 +360,19 @@ class MinecraftServer:
     def is_forge_installer_downloaded(self):
         return self.get_forge_installer_path() is not None
 
-    def is_running(self) -> bool:
-        """ Is this server running?"""
-        raise NotImplementedError
+    def stop_politely(self, timeout=5):
+        """Stop the server by sending SIGTERM.
+        Wait a bit, then send SIGKILL."""
+        self._server_process.send_signal(signal.SIGTERM)
 
-    def stop(self):
-        """Stop the server."""
-        raise NotImplementedError
+        time.sleep(timeout)
+
+        if self.is_running():
+            self.stop_forcefully()
+
+    def stop_forcefully(self):
+        """Stop the server immediately."""
+        self._server_process.send_signal(signal.SIGKILL)
 
     def accept_eula(self):
 
@@ -352,14 +392,10 @@ class MinecraftServer:
 
         print("EULA accepted.")
 
-    def get_forge_server_command(self) -> str:
+    def get_forge_server_command(self) -> List[str]:
         """Return a command that will run the Forge server.
         This will not set your directory to the correct location."""
-        return 'java {flags} {memflags} -jar "{forge_jar}"'.format(
-            flags=self.JAVA_NONMEM_FLAGS,
-            memflags=self.get_memory_flags(),
-            forge_jar=self.get_forge_server_path(),
-        )
+        return ['java'] + self.JAVA_NONMEM_FLAGS + self.get_memory_flags() + ['-jar'] + [self.get_forge_server_path()]
 
     def run_forge_server_headless(self):
         """Runs the forge server in the current terminal. Non-interactive."""
@@ -367,7 +403,7 @@ class MinecraftServer:
 
         print(command)
 
-        old_dir=os.curdir
+        old_dir = os.curdir
 
         # Change directory and run server.
         os.chdir(self.server_path)
@@ -375,11 +411,11 @@ class MinecraftServer:
 
         os.chdir(old_dir)
 
-
-
     def run_forge_server_graphical(self):
         """Run the forge server in a new terminal window in a graphical environment."""
-        spawn_graphical_terminal(self.get_forge_server_command())
+        ps = spawn_graphical_terminal(self.get_forge_server_command(), working_dir=self.server_path)
+
+        self._server_process = ps
 
     def install_forge_server(self):
 

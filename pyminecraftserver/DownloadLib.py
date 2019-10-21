@@ -15,7 +15,8 @@ from requests import Response
 cache_dir = os.path.abspath(os.path.expanduser("~/pyminecraftserver_cache/"))
 assert '~' not in cache_dir
 
-os.mkdir(cache_dir)
+if not os.path.exists(cache_dir):
+    os.mkdir(cache_dir)
 
 # Make README for you adventurous people who like to poke in directories in '~/'
 if not os.path.exists(os.path.join(cache_dir, 'README')):

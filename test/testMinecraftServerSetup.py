@@ -16,3 +16,5 @@ class TestSimpleSetupFromJSON(TestCaseWithEphemeralTempDir):
         )
 
         self.assertTrue(minecraft_server.is_forge_server_installed())
+
+        self.assertTrue(os.path.exists(minecraft_server.get_eula_path()))

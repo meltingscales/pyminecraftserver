@@ -37,7 +37,7 @@ def response_filename(response: Response, bad_filenames=frozenset(['file', 'down
     """
     Given a Response, return a filename.
 
-    Useful for crappy site URLs like 'www.mycoolshit.ru/download/2315623/file' that redirect you to some ZIP file with
+    Useful for cruddy site URLs like 'www.mycoolstuff.ru/download/2315623/file' that redirect you to some ZIP file with
     an actual name, but the URL has no name.
 
     :param response: the Response object.

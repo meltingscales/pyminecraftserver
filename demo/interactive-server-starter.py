@@ -2,7 +2,7 @@
 This script is an interactive script that goes over all of your JSON server config files and lets you run them.
 """
 
-from shared import *
+from config import *
 from pyminecraftserver.MinecraftServer import MinecraftServer
 
 if __name__ == '__main__':

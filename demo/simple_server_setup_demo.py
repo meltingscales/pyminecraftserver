@@ -4,7 +4,7 @@ This demo shows you how to use Python code to set up minecraft servers.
 
 import os
 
-from shared import *
+from config import *
 from pyminecraftserver.MinecraftServer import MinecraftServer
 
 if __name__ == '__main__':

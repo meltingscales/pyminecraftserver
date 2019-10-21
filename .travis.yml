@@ -1,6 +1,5 @@
 cache:
   directories:
-    - $HOME/cache
     - $HOME/.cache/pip
     - $HOME/AppData/Local/Temp/chocolatey
     - $HOME/Library/Caches/Homebrew

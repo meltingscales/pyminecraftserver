@@ -362,19 +362,31 @@ class MinecraftServer:
 
     def stop_politely(self, timeout: int = 5):
         """
-        Stop the server.
+        Stop the server with SIGTERM then SIGKILL.
         :param timeout: Timeout in seconds to wait before forcefully stopping the server.
-        :return:
         """
+
+        print("Sent SIGTERM to process...")
         self._server_process.send_signal(signal.SIGTERM)
 
-        time.sleep(timeout)
+        print("Waiting {} seconds before forcefully ending server...".format(timeout))
+
+        for i in range(0, timeout, 1):
+
+            time.sleep(1)
+            print("sec={}, still running.".format(i))
+
+            if not self.is_running():
+                print("It stopped running!")
+                return
+
+        print("It is still running after {} seconds. Using SIGKILL.".format(timeout))
 
         if self.is_running():
             self.stop_forcefully()
 
     def stop_forcefully(self):
-        """Stop the server immediately."""
+        """Stop the server with SIGKILL."""
         self._server_process.send_signal(signal.SIGKILL)
 
     def accept_eula(self):

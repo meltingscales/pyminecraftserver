@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 import argparse
+import shutil
 import time
 
 import cfscrape
@@ -11,8 +12,15 @@ import sys
 # see https://github.com/Anorov/cloudflare-scrape
 from requests import Response
 
-cache_dir = os.path.abspath(os.path.expanduser("~/.cache/pyminecraftserver/"))
+cache_dir = os.path.abspath(os.path.expanduser("~/pyminecraftserver_cache/"))
 assert '~' not in cache_dir
+
+os.mkdir(cache_dir)
+
+# Make README for you adventurous people who like to poke in directories in '~/'
+if not os.path.exists(os.path.join(cache_dir, 'README')):
+    with open(os.path.join(cache_dir, 'README'), 'w') as f:
+        f.write('This directory caches file downloads saved by pyminecraftserver.')
 
 location = os.path.join(os.path.abspath(os.path.dirname(__file__)), cache_dir)
 file_memory_cache = Memory(location)

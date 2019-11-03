@@ -13,3 +13,8 @@ class MyTestCase(unittest.TestCase):
             'waystones')
 
         self.assertEqual(get_modname_from_curseURL('https://www.curseforge.com/minecraft/potatoes/rotatoes/'), None)
+
+
+class ExampleTestCase(unittest.TestCase):
+    def testNotGoingNuts(self):
+        self.assertTrue(True)

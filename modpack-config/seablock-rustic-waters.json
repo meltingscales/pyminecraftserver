@@ -1,0 +1,8 @@
+{
+  "name": "Seablock Rustic Waters 1.2.1",
+  "modpack_zip_url": "https://www.curseforge.com/minecraft/modpacks/seablock-rustic-waters/download/2843440/file",
+  "forge_url": "https://files.minecraftforge.net/maven/net/minecraftforge/forge/1.12.2-14.23.5.2846/forge-1.12.2-14.23.5.2846-installer.jar",
+  "extra_mods": {
+    "dynmap": "https://www.curseforge.com/minecraft/mc-mods/dynmapforge/download/2722448/file"
+  }
+}
